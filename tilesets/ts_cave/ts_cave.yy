@@ -3,9 +3,9 @@
   "%Name":"ts_cave",
   "autoTileSets":[],
   "macroPageTiles":{
-    "SerialiseHeight":0,
-    "SerialiseWidth":0,
-    "TileSerialiseData":[],
+    "SerialiseHeight":2,
+    "SerialiseWidth":2,
+    "TileSerialiseData":[0,1,2,3,],
   },
   "name":"ts_cave",
   "out_columns":2,
