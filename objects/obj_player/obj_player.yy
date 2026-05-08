@@ -24,8 +24,8 @@
   "name":"obj_player",
   "overriddenProperties":[],
   "parent":{
-    "name":"Player",
-    "path":"folders/Objects/Characters/Player.yy",
+    "name":"Grizzelda",
+    "path":"folders/Objects/Characters/Grizzelda.yy",
   },
   "parentObjectId":{
     "name":"obj_character_parent",
@@ -49,8 +49,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_player_idle",
-    "path":"sprites/spr_player_idle/spr_player_idle.yy",
+    "name":"spr_grizzelda_idle",
+    "path":"sprites/spr_grizzelda_idle/spr_grizzelda_idle.yy",
   },
   "spriteMaskId":{
     "name":"spr_player_idle",

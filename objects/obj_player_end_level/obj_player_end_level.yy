@@ -8,8 +8,8 @@
   "name":"obj_player_end_level",
   "overriddenProperties":[],
   "parent":{
-    "name":"Player",
-    "path":"folders/Objects/Characters/Player.yy",
+    "name":"Grizzelda",
+    "path":"folders/Objects/Characters/Grizzelda.yy",
   },
   "parentObjectId":{
     "name":"obj_character_parent",

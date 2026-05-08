@@ -24,7 +24,7 @@ player_jump = function()
 		vel_y = -jump_speed;
 
 		// This changes the player's sprite to the jump sprite, and resets the frame to 0.
-		sprite_index = spr_player_jump;
+		sprite_index = spr_grizzelda_jump;
 		image_index = 0;
 
 		// This sets 'grounded' to false, so that any events after this know that the player is not supposed
@@ -73,7 +73,7 @@ player_left = function()
 	if (grounded)
 	{
 		// Change the instance's sprite to the walking player sprite.
-		sprite_index = spr_player_walk;
+		sprite_index = spr_grizzelda_run;
 	}
 	
 	// Sets input flag back to false
@@ -109,7 +109,7 @@ player_right = function()
 	if (grounded)
 	{
 		// Change the instance's sprite to the walking player sprite.
-		sprite_index = spr_player_walk;
+		sprite_index = spr_grizzelda_run;
 	}
 	
 	// Sets input flag back to false

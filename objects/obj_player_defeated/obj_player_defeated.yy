@@ -11,8 +11,8 @@
   "name":"obj_player_defeated",
   "overriddenProperties":[],
   "parent":{
-    "name":"Player",
-    "path":"folders/Objects/Characters/Player.yy",
+    "name":"Grizzelda",
+    "path":"folders/Objects/Characters/Grizzelda.yy",
   },
   "parentObjectId":null,
   "persistent":false,
