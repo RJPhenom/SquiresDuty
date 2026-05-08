@@ -1,83 +1,74 @@
-// This runs the parent's End Step event, which handles flipping the character's sprite left or right.
+// Inherit parent End Step (sprite flipping, defeat handling, invincibility flashing).
 event_inherited();
 
-// This is a switch statement that runs on the 'sprite_index' variable, which stores the sprite
-// currently assigned to the instance.
-// This allows us to transition to some other sprite, depending on the currently assigned sprite, and some additional conditions.
-switch (sprite_index)
+// --- Backpack tilt --------------------------------------------------------------
+// Lean opposite to motion when accelerating, then settle. Heavier stacks lean more.
+var _stack_n = array_length(backpack);
+var _max_lean = 6 + min(_stack_n, 8) * 2;	// 6° empty, ramping up with weight
+target_tilt = -clamp(vel_x * 1.4, -_max_lean, _max_lean);
+stack_tilt = lerp(stack_tilt, target_tilt, 0.18);
+
+// --- Sprite state machine -------------------------------------------------------
+// Running sprites collapse: while grounded and moving, the run sprite is picked by
+// weight tier (light/tired/exhausted). Off the ground we use jump/fall.
+var _is_run_sprite =
+	sprite_index == spr_grizzelda_run			||
+	sprite_index == spr_grizzelda_run_tired		||
+	sprite_index == spr_grizzelda_run_exhausted;
+
+if (_is_run_sprite)
 {
-	// Code under this case runs if the assigned sprite is 'spr_player_walk', meaning the player is walking.
-	case spr_player_walk:
-		// Set the animation speed to 1, as it may have been set to 0 during the jump animation.
-		image_speed = 1;
-	
-		// This checks if the X velocity is 0, meaning the player is not moving horizontally.
-		if (vel_x == 0)
-		{
-			// In that case we change its sprite to the idle one.
-			sprite_index = spr_player_idle;
-		}
-	
-		// This checks if the Y velocity of the player is greater than 1, meaning it is falling down.
-		// This would happen when the player walks off a ledge.
-		if (vel_y > 1)
-		{
-			// In that case we change its sprite to the fall one, and reset the frame to 0.
-			sprite_index = spr_player_fall;
-			image_index = 0;
-		}
-		break;
+	image_speed = 1;
 
-	// Code under this case runs if the assigned sprite is 'spr_player_jump', meaning the player was in the middle of a jump.
-	case spr_player_jump:
-		// This checks if the Y velocity is equal to, or greater than 0, meaning the player has now started falling downward.
-		if (vel_y >= 0)
+	if (grounded)
+	{
+		// Re-pick the run sprite each frame so picking up an item mid-stride
+		// transitions cleanly into the tired/exhausted variant.
+		var _want = get_run_sprite();
+		if (sprite_index != _want)
 		{
-			// In that case we change its sprite to the fall sprite, and reset the frame to 0.
-			sprite_index = spr_player_fall;
-			image_index = 0;
-		
-			// We also reset the animation speed to 1, as it was set to 0 at the end of the jump animation.
+			sprite_index = _want;
+		}
+		if (vel_x == 0) sprite_index = spr_grizzelda_idle;
+	}
+	if (vel_y > 1)
+	{
+		sprite_index = spr_grizzelda_fall;
+		image_index = 0;
+	}
+}
+else
+{
+	switch (sprite_index)
+	{
+		case spr_grizzelda_jump:
+			if (vel_y >= 0)
+			{
+				sprite_index = spr_grizzelda_fall;
+				image_index = 0;
+				image_speed = 1;
+			}
+			break;
+
+		case spr_grizzelda_fall:
+			if (grounded)
+			{
+				sprite_index = spr_grizzelda_idle;
+				image_speed = 1;
+				audio_play_sound(snd_land_01, 0, 0);
+			}
+			break;
+
+		case spr_grizzelda_run_exhausted:	// reused as "hurt" pose — see Collision_obj_enemy_parent
+			if (grounded)
+			{
+				var _dust = instance_create_layer(x, bbox_bottom, layer, obj_effect_knockback);
+				_dust.image_xscale = image_xscale;
+			}
+			break;
+
+		default:
 			image_speed = 1;
-		}
-		break;
-
-	// Code under this case runs if the assigned sprite is 'spr_player_fall', meaning the player was falling downward.
-	case spr_player_fall:
-		// This checks if the player is now on the ground
-		if (grounded)
-		{
-			// In that case we change its sprite to the idle sprite.
-			sprite_index = spr_player_idle;
-		
-			// We also reset the animation speed to 1, as it was set to 0 at the end of the fall animation.
-			image_speed = 1;
-		
-			// Play the landing sound effect
-			audio_play_sound(snd_land_01, 0, 0);
-		}
-		break;
-
-	// Code under this case runs if the assigned sprite is 'spr_player_hurt', meaning the player is in the middle of a knockback.
-	case spr_player_hurt:
-		// This checks if the player is grounded, so the dust VFX can be created.
-		if (grounded)
-		{
-			// This creates an instance of obj_effect_knockback, which appears at the player's feet when it's in knockback.
-			// It's created at the bottom point of the player's mask, in the player's layer.
-			// The ID of the created instance is stored in a local variable called 'dust', because we want to modify its horizontal (X) scale.
-			var _dust = instance_create_layer(x, bbox_bottom, layer, obj_effect_knockback);
-		
-			// Here we're modifying the X scale of the dust
-			// instance to match the X scale of the player.
-			_dust.image_xscale = image_xscale;
-		}
-		break;
-
-	// 'default' code runs when none of the other cases are valid, meaning the currently assigned sprite is not covered by any
-	// of the cases above.
-	default:
-		// For all other sprites we set the animation speed to 1.
-		image_speed = 1;
-		break;
+			break;
+	}
 }

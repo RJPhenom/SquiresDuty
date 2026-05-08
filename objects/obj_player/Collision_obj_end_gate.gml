@@ -1,7 +1,12 @@
-// 'obj_end_gate' is the goal of every level, so when the player collides with this, the level should end.
-// This creates an instance of obj_player_fade, at the player's position.
-// This new instance will fade away over time and once it has faded, it will start the next room.
-instance_create_layer(x, y, layer, obj_player_end_level);
+// GDD: "If Grizzelda scouts ahead and finds the end of the level she doesn't win.
+//       Once Sir Doozle reaches the end, Grizzelda is allowed to enter and you win."
+// So Grizzelda touching the gate only completes the level if Sir Doozle has already
+// reached it (tracked via global.doozle_reached_end, set in obj_sir_doozle's
+// collision with obj_end_gate).
+if (!variable_global_exists("doozle_reached_end") || !global.doozle_reached_end)
+{
+	exit;
+}
 
-// This destroys the player instance as it's no longer needed.
+instance_create_layer(x, y, layer, obj_player_end_level);
 instance_destroy();

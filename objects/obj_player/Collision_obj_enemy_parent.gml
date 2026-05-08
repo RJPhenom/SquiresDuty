@@ -17,8 +17,8 @@ if (vel_y > 0)
 		// Set the vertical velocity of the player to -jump_speed so it bounces off the enemy.
 		vel_y = -jump_speed;
 	
-		// Change the sprite to spr_player_jump as the player is now jumping (and not falling anymore).
-		sprite_index = spr_player_jump;
+		// Change the sprite to the jump sprite as the player is now bouncing up off the enemy.
+		sprite_index = spr_grizzelda_jump;
 		image_index = 0;
 	
 		// The animation speed at this point would be 0 if the fall animation had finished, so we reset
@@ -65,7 +65,9 @@ in_knockback = true;
 no_hurt_frames = 120;
 
 // This changes the sprite to the hurt sprite.
-sprite_index = spr_player_hurt;
+// No dedicated grizzelda_hurt sprite — reuse the exhausted-run pose for the
+// knockback flash. Reads as "she's wobbling from the hit" well enough.
+sprite_index = spr_grizzelda_run_exhausted;
 image_index = 0;
 
 // Set Alarm 0 to run after 15 frames; that event stops the player's horizontal velocity, ending the knockback
@@ -73,3 +75,6 @@ alarm[0] = 15;
 
 // Play the 'life lost' sound effect
 audio_play_sound(snd_life_lost_01, 0, 0);
+
+// Knock the top item off Grizzelda's backpack (GDD: items can be dropped/destroyed on hit).
+backpack_drop_top();

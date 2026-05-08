@@ -1,2 +1,1 @@
-// Rotate every frame
-image_angle += 3;
+// Death anim plays itself; no rotation (the death sprite is its own animation).

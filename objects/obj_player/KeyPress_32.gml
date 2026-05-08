@@ -1,2 +1,2 @@
-// Sets jump input flag to true
+// Space — jump.
 jump_input = true;

@@ -1,5 +1,6 @@
 // This event runs when a Broadcast Message is received.
-// We're expecting the "footstep" message set in spr_player_walk, which tells when the player has put a foot down.
+// We're expecting the "footstep" message — set as a frame-keyframe on Grizzelda's
+// run sprite — fired when she plants a foot.
 // This reads the received message from the event_data map, where it's stored in the "message" key.
 // The returned value is stored in a local variable.
 var _message = event_data[? "message"];

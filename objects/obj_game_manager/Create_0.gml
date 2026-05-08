@@ -1,6 +1,16 @@
 // This creates the HUD sequence, which shows all HUD elements (such as coins and hearts). It lasts throughout the level.
 layer_sequence_create("Instances", 0, 0, seq_game_hud);
 
+// Reset per-level flags. doozle_reached_end gates Grizzelda's win in
+// obj_player.Collision_obj_end_gate so she can't sneak past Sir Doozle to victory.
+global.doozle_reached_end = false;
+
+// Spawn the Sir Doozle HP bar HUD if it doesn't exist yet (one per room).
+if (!instance_exists(obj_hud_doozle_hp))
+{
+	instance_create_layer(0, 0, "Instances", obj_hud_doozle_hp);
+}
+
 // paused: This will be true when the game is paused, and false when it's not
 paused = false;
 // pause_sequence: The ID of the Sequence element created for the pause menu, used to close it

@@ -1,17 +1,15 @@
-// Enable gravity
-gravity = 1.5;
+// Death-flop physics: light gravity + a small upward kick so she pops off the
+// ground before falling out of the room (the existing Outside Room event triggers
+// the room restart). Lighter pop than the template so the death anim is readable.
+gravity	= 1.5;
+vspeed	= -22;
 
-// Make the instance jump up
-vspeed = -40;
+// Don't flip — spr_grizzelda_death is authored facing the right direction.
+image_xscale = 1;
 
-// Flip the sprite horizontally so it faces right (as the original sprite for this object faces left)
-image_xscale = -1;
-
-// Set Alarm 0 to run after a while, which starts the transition
+// Start the pixelate transition timer.
 alarm[0] = 30;
 
-// Stop all playing audio
+// Stop all playing audio and play the lose sting.
 audio_stop_all();
-
-// Play the lose sound effect
 audio_play_sound(snd_music_lose, 0, 0);

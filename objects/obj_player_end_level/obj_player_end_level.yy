@@ -33,8 +33,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_player_walk",
-    "path":"sprites/spr_player_walk/spr_player_walk.yy",
+    "name":"spr_grizzelda_run",
+    "path":"sprites/spr_grizzelda_run/spr_grizzelda_run.yy",
   },
   "spriteMaskId":null,
   "visible":true,
