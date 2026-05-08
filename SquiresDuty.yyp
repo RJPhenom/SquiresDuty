@@ -197,6 +197,8 @@
     {"id":{"name":"spr_cloud_small","path":"sprites/spr_cloud_small/spr_cloud_small.yy",},},
     {"id":{"name":"spr_coin_collect_effect","path":"sprites/spr_coin_collect_effect/spr_coin_collect_effect.yy",},},
     {"id":{"name":"spr_coin","path":"sprites/spr_coin/spr_coin.yy",},},
+    {"id":{"name":"spr_custom1","path":"sprites/spr_custom1/spr_custom1.yy",},},
+    {"id":{"name":"spr_custom2","path":"sprites/spr_custom2/spr_custom2.yy",},},
     {"id":{"name":"spr_doozle_death","path":"sprites/spr_doozle_death/spr_doozle_death.yy",},},
     {"id":{"name":"spr_doozle_run","path":"sprites/spr_doozle_run/spr_doozle_run.yy",},},
     {"id":{"name":"spr_dust_effect","path":"sprites/spr_dust_effect/spr_dust_effect.yy",},},
