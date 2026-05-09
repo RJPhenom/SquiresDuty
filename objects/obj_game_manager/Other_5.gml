@@ -18,5 +18,11 @@ audio_stop_sound(snd_amb_trees);
 
 audio_stop_sound(snd_amb_wind);
 
-// Restore the leaf count for the leaves effect
-fx_set_parameter(effect_leaf, "param_num_particles", leaf_count);
+// Restore the leaf count for the leaves effect — but only if Create actually
+// found the EffectLeaf layer in this room. Without this guard, rooms that
+// don't use the leaf effect (e.g. caves, old template rooms) crash on Game End
+// because effect_leaf / leaf_count were never assigned.
+if (layer_exists("EffectLeaf"))
+{
+	fx_set_parameter(effect_leaf, "param_num_particles", leaf_count);
+}
