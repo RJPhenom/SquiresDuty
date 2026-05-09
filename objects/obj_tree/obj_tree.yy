@@ -1,9 +1,9 @@
 {
   "$GMObject":"",
-  "%Name":"obj_enter",
+  "%Name":"obj_tree",
   "eventList":[],
   "managed":true,
-  "name":"obj_enter",
+  "name":"obj_tree",
   "overriddenProperties":[],
   "parent":{
     "name":"gio-Squire's Duty",
@@ -28,8 +28,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"spr_enter",
-    "path":"sprites/spr_enter/spr_enter.yy",
+    "name":"spr_jump_fruit_tree",
+    "path":"sprites/spr_jump_fruit_tree/spr_jump_fruit_tree.yy",
   },
   "spriteMaskId":null,
   "visible":true,
