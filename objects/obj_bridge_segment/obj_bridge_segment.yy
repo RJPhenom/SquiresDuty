@@ -1,17 +1,21 @@
 {
   "$GMObject":"",
-  "%Name":"obj_legal_plank_connection",
+  "%Name":"obj_bridge_segment",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"obj_legal_plank_connection",
+  "name":"obj_bridge_segment",
   "overriddenProperties":[],
   "parent":{
-    "name":"gio-Squire's Duty",
-    "path":"folders/gio-Squire's Duty.yy",
+    "name":"Interactive",
+    "path":"folders/Objects/Environment/Interactive.yy",
   },
-  "parentObjectId":null,
+  "parentObjectId":{
+    "name":"obj_collision",
+    "path":"objects/obj_collision/obj_collision.yy",
+  },
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -33,6 +37,9 @@
     "name":"spr_block_coins_inactive",
     "path":"sprites/spr_block_coins_inactive/spr_block_coins_inactive.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"spr_block_coins_inactive",
+    "path":"sprites/spr_block_coins_inactive/spr_block_coins_inactive.yy",
+  },
   "visible":true,
 }

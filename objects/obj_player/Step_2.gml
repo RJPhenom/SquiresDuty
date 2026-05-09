@@ -1,6 +1,11 @@
 // Inherit parent End Step (sprite flipping, defeat handling, invincibility flashing).
 event_inherited();
 
+// Reset the double-jump charge on landing so she can consume another item
+// next time she's airborne. Done in End Step so it picks up `grounded` after
+// the Begin Step's ground check has run for the current frame.
+if (grounded) has_double_jumped = false;
+
 // --- Backpack tilt --------------------------------------------------------------
 // Lean opposite to motion when accelerating, then settle. Heavier stacks lean more.
 var _stack_n = array_length(backpack);

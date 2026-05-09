@@ -10,7 +10,10 @@ defeated_object = obj_enemy_defeated;
 move_speed	= 0;
 vel_x		= 0;
 
-max_hp	= 30;
+// R is fragile — squishy archer, dies in one reflected arrow (which is bumped
+// to 25 dmg in obj_arrow.Step_0 at reflection time). Sword still takes 2-3
+// swings, crossbow now 1-shots which is fine for the archer-vs-archer feel.
+max_hp	= 20;
 hp		= max_hp;
 
 // Contact damage if you walk into him is the same template-shared 1 heart;

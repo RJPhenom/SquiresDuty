@@ -1,42 +1,29 @@
-// This event runs when the player collides with an enemy.
-// It checks if the player has fallen on top of the enemy, in which case the enemy is defeated. Otherwise, the player
-// gets hurt.
-// This condition checks if the player's vertical velocity is greater than 0, meaning it's falling down.
+// Stomp check: if she's falling onto the enemy from above, BOUNCE off without
+// damage to either side. Combat is Sir Doozle's job — Grizzelda's relationship
+// with enemies is purely platforming (you can use them as bouncepads, like
+// SMB Spinies you can ride on). Damage to her still happens via the default
+// path below if she's NOT coming down on the enemy.
 if (vel_y > 0)
 {
-	// This checks if the bottom point of the player's collision mask was above the enemy mask's bottom
-	// point, in the previous frame.
-	// If this is true, it proves that the player is falling on top of the enemy from above, as it was
-	// previously above it.
-	// We get the bottom position for the previous frame by subtracting this frame's Y velocity from it.
+	// Was her bbox bottom above the enemy's last frame? Then this frame's
+	// overlap is from above — qualifies as a stomp.
 	if ((bbox_bottom - vel_y) < (other.bbox_bottom - other.vel_y))
 	{
-		// Set the HP of the 'other' instance (which is the enemy) to 0, so that it's defeated.
-		other.hp = 0;
-	
-		// Set the vertical velocity of the player to -jump_speed so it bounces off the enemy.
 		vel_y = -jump_speed;
-	
-		// Change the sprite to the jump sprite as the player is now bouncing up off the enemy.
+
 		sprite_index = spr_grizzelda_jump;
 		image_index = 0;
-	
-		// The animation speed at this point would be 0 if the fall animation had finished, so we reset
-		// it to 1 so the jump animation can play.
 		image_speed = 1;
-	
-		// This creates an instance of obj_effect_jump at the bottom of the player's mask. This is the
-		// jump VFX animation.
+
 		instance_create_layer(x, bbox_bottom, "Instances", obj_effect_jump);
-	
-		// Play the enemy hit sound effect
-		audio_play_sound(snd_enemy_hit, 0, 0);
-		
-		// Play the jump sound with a random pitch
+
 		var _sound = audio_play_sound(snd_jump, 0, 0);
 		audio_sound_pitch(_sound, random_range(0.8, 1));
-	
-		// Finally, exit the event so the rest of the actions don't run (they make the player hurt)
+
+		// Brief i-frames so a low-clearance bounce doesn't immediately re-collide
+		// and apply contact damage on the same enemy.
+		no_hurt_frames = max(no_hurt_frames, 30);
+
 		exit;
 	}
 }

@@ -5,8 +5,11 @@ event_inherited();
 // obj_enemy_parent.End Step. Killable by sword OR crossbow per GDD.
 defeated_object = obj_enemy_defeated;
 
+// B holds position by default — they only move when actively chasing a
+// target (see Step_2). The parent's Create sets vel_x to a random direction;
+// override it back to 0 here so they spawn idle.
 move_speed	= 2;
-vel_x		= choose(-move_speed, move_speed);
+vel_x		= 0;
 
 // 30 HP — same as the existing enemy1; sword (10/swing) kills in 3, crossbow
 // (25/arrow) kills in 2.

@@ -65,6 +65,12 @@ else
 			image_angle	= (image_angle + 180) mod 360;
 			image_xscale = (vel_x < 0) ? -1 : 1;
 
+			// Empower the bounced arrow — enemies fire at heart-damage scale
+			// (damage = 1), but a reflected arrow needs to do real work against
+			// enemy hp pools. 25 matches Doozle's crossbow shot, enough to
+			// one-shot a 20-hp R archer.
+			damage		= max(damage, 25);
+
 			_doozle_hit.equipped_item.charges -= 1;
 			if (_doozle_hit.equipped_item.charges <= 0)
 			{

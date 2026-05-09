@@ -25,6 +25,11 @@ equipped_index	= -1;
 stack_tilt		= 0;
 target_tilt		= 0;
 
+// Set true after consuming an item for a double-jump; reset on landing. Limits
+// to one extra jump per air-time even if she has multiple items in her pack
+// (so she can't ladder up indefinitely with a full backpack).
+has_double_jumped = false;
+
 // --- Weight tiers (drives both movement scaling AND sprite/jump state) ----------
 // 0 = light	(0–3 items)		— full speed, full jump, base run sprite
 // 1 = tired	(4–7 items)		— 75% speed, 60% jump, tired run sprite
@@ -149,7 +154,33 @@ spawn_world_item = function(_item_struct, _x, _y)
 // --- Action functions -----------------------------------------------------------
 player_jump = function()
 {
-	if (!grounded) { jump_input = false; return; }
+	if (!grounded)
+	{
+		// Airborne — try the double-jump-by-item-consumption mechanic.
+		// One extra jump per air-time, requires an equipped item, item is
+		// destroyed (no world drop — it's "spent" as fuel). Full jump impulse
+		// regardless of weight tier, since the item is the energy source.
+		if (!has_double_jumped && equipped_index >= 0)
+		{
+			var _consumed = backpack_take_equipped();
+			if (_consumed != undefined)
+			{
+				vel_y = -jump_speed;
+
+				sprite_index = spr_grizzelda_jump;
+				image_index = 0;
+
+				instance_create_layer(x, bbox_bottom, "Instances", obj_effect_jump);
+
+				var _sound = audio_play_sound(snd_jump, 0, 0);
+				audio_sound_pitch(_sound, random_range(1.0, 1.2));	// brighter pitch to read as "boost"
+
+				has_double_jumped = true;
+			}
+		}
+		jump_input = false;
+		return;
+	}
 
 	var _factor = get_jump_factor();
 	if (_factor <= 0)
@@ -230,6 +261,93 @@ player_use = function()
 
 	if (_equipped.type == "wood")
 	{
+		// --- Bridge mode: fill if a connection marker is nearby --------------
+		// Level designers place obj_legal_plank_connection markers in pairs to
+		// define legal bridge spans. If Grizzelda is near a marker, we spawn
+		// obj_bridge_segment instances between the marker and its sibling.
+		// Free-form placement below is the fallback.
+		//
+		// Grounded check: bridge geometry depends on her standing y, and she
+		// shouldn't be stair-stepping bridges in midair anyway.
+		if (!grounded) { use_input = false; return; }
+
+		var _connector = noone;
+		var _connector_range = 150;
+		with (obj_legal_plank_connection)
+		{
+			var _d = point_distance(x, y, other.x, other.y);
+			if (_d > _connector_range) continue;
+			if (_connector == noone
+				|| _d < point_distance(_connector.x, _connector.y, other.x, other.y))
+			{
+				_connector = id;
+			}
+		}
+
+		if (_connector != noone)
+		{
+			// Find the closest sibling marker at the same Y row (±16px).
+			var _sibling = noone;
+			with (obj_legal_plank_connection)
+			{
+				if (id == _connector) continue;
+				if (abs(y - _connector.y) > 16) continue;
+				if (_sibling == noone
+					|| abs(x - _connector.x) < abs(_sibling.x - _connector.x))
+				{
+					_sibling = id;
+				}
+			}
+
+			if (_sibling != noone)
+			{
+				// Spawn obj_bridge_segment instances (wood-plank visual via
+				// spr_block_coins_inactive, walkable via obj_collision parent)
+				// at sprite-width steps across the gap.
+				//
+				// =========== TWEAK ZONE — adjust if bridges look uneven ===========
+				// Per-segment Y nudges (negative = pixel up, positive = down).
+				// First and last segments use _outer_y_nudge; everything between
+				// uses _middle_y_nudge. Game-jam knobs — bump 1 at a time until
+				// the row visually matches the surrounding platforms.
+				var _outer_y_nudge	= 0;
+				var _middle_y_nudge	= -2;
+				// ===================================================================
+
+				var _seg_w		= sprite_get_width(spr_block_coins_inactive);
+				var _y_pix		= _connector.y;
+				var _x_left		= min(_connector.x, _sibling.x);
+				var _x_right	= max(_connector.x, _sibling.x);
+
+				// Pre-compute segment count so we know which is "last".
+				var _seg_count = floor((_x_right - _x_left) / _seg_w) + 1;
+				var _seg_idx = 0;
+
+				var _sx = _x_left;
+				while (_sx <= _x_right)
+				{
+					var _is_outer	= (_seg_idx == 0) || (_seg_idx == _seg_count - 1);
+					var _spawn_y	= _y_pix + (_is_outer ? _outer_y_nudge : _middle_y_nudge);
+
+					instance_create_layer(_sx, _spawn_y, "Instances", obj_bridge_segment);
+
+					_sx += _seg_w;
+					_seg_idx += 1;
+				}
+
+				// Bridge built — markers have done their job, remove them so
+				// they don't sit visible on the bridge or trigger again.
+				instance_destroy(_connector);
+				instance_destroy(_sibling);
+
+				backpack_take_equipped();
+				audio_play_sound(snd_box_get, 0, 0);
+				use_input = false;
+				return;
+			}
+		}
+
+		// --- Free-form placement (fallback) -----------------------------------
 		// Place the plank past her bbox horizontally and just below her feet
 		// vertically. We read the placed-wood sprite's bbox at runtime so
 		// future art changes don't re-trap her — the math always lines up
