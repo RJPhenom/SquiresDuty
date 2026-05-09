@@ -1,11 +1,5 @@
-// If the player instance does not exist,
-if (!instance_exists(obj_player))
-{
-	// Exit the event so it does not run
-	exit;
-}
-
-// Draw the object itself. It's drawn in Draw GUI Begin
-// so it appears behind other HUD elements, which are
-// drawn in Draw GUI.
-draw_self();
+// HUD wood backdrop is suppressed — only the heart counter renders. The
+// instance stays in seq_game_hud (avoids editing the fragile sequence file)
+// but does nothing visual. Restore by removing this exit if you want the
+// wooden plaque back.
+exit;

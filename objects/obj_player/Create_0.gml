@@ -118,6 +118,33 @@ right_input			= false;
 cycle_next_input	= false;
 cycle_prev_input	= false;
 use_input			= false;
+drop_input			= false;
+
+// --- World-item spawn (used by drop key and Doozle-swap) ------------------------
+// Maps an inventory item struct's `type` field back to its world-object asset
+// and instantiates one at (_x, _y). Stamps a half-second pickup grace so the
+// dropping character can't immediately scoop it back up.
+spawn_world_item = function(_item_struct, _x, _y)
+{
+	var _obj = noone;
+	switch (_item_struct.type)
+	{
+		case "sword":		_obj = obj_item_sword;		break;
+		case "shield":		_obj = obj_item_shield;		break;
+		case "crossbow":	_obj = obj_item_crossbow;	break;
+		case "jumpfruit":	_obj = obj_item_jumpfruit;	break;
+		case "potion":		_obj = obj_item_potion;		break;
+		case "wood":		_obj = obj_item_wood;		break;
+	}
+
+	if (_obj != noone)
+	{
+		var _spawned = instance_create_layer(_x, _y, "Instances", _obj);
+		_spawned.no_pickup_frames = 30;	// ~0.5s at 60fps
+		return _spawned;
+	}
+	return noone;
+};
 
 // --- Action functions -----------------------------------------------------------
 player_jump = function()
@@ -172,6 +199,22 @@ player_right = function()
 	right_input = false;
 };
 
+// G — drop the currently equipped item back into the world. Does nothing if
+// the backpack is empty. The dropped instance gets a 0.5s pickup grace so she
+// doesn't re-collect it on the same frame she dropped it.
+player_drop = function()
+{
+	if (equipped_index < 0) { drop_input = false; return; }
+
+	var _item = backpack_take_equipped();
+	if (_item == undefined) { drop_input = false; return; }
+
+	spawn_world_item(_item, x, y);
+	audio_play_sound(snd_box_get, 0, 0);
+
+	drop_input = false;
+};
+
 // F use action. Branches by equipped item type:
 //   wood  → place a bridge in front of Grizzelda (consumes the item).
 //   else  → hand-off to Sir Doozle when in range.
@@ -187,12 +230,26 @@ player_use = function()
 
 	if (_equipped.type == "wood")
 	{
-		// Place ~32px ahead of her at her foot height. image_xscale tracks her
-		// facing (set in obj_character_parent.End Step), so we lay the plank in
-		// the direction she's looking.
+		// Place the plank past her bbox horizontally and just below her feet
+		// vertically. We read the placed-wood sprite's bbox at runtime so
+		// future art changes don't re-trap her — the math always lines up
+		// with whatever bbox the current sprite has.
 		var _facing = (image_xscale != 0) ? sign(image_xscale) : 1;
-		var _px = x + _facing * 32;
-		var _py = bbox_bottom;
+
+		var _spr			= spr_wood_placed;
+		var _origin_x		= sprite_get_xoffset(_spr);
+		var _origin_y		= sprite_get_yoffset(_spr);
+		var _plank_left_ext	= _origin_x - sprite_get_bbox_left(_spr);		// extent left of origin
+		var _plank_right_ext= sprite_get_bbox_right(_spr) - _origin_x;		// extent right of origin
+		var _plank_top_ext	= _origin_y - sprite_get_bbox_top(_spr);		// extent above origin
+
+		// Plank's near edge sits 2px beyond her bbox in the facing direction.
+		var _player_edge	= (_facing > 0) ? bbox_right : bbox_left;
+		var _near_ext		= (_facing > 0) ? _plank_left_ext : _plank_right_ext;
+		var _px				= _player_edge + _facing * (_near_ext + 2);
+
+		// Plank's top edge flush with her feet so she steps onto it seamlessly.
+		var _py				= bbox_bottom + _plank_top_ext;
 
 		// Don't place inside terrain — quick guard against burying the plank.
 		if (!position_meeting(_px, _py, obj_collision))
@@ -218,6 +275,24 @@ player_use = function()
 
 	var _item = backpack_take_equipped();
 	if (_item == undefined) { use_input = false; return; }
+
+	// Potions don't equip — they heal Doozle on handoff and get consumed.
+	// 50hp = half his pool, so a single potion is a meaningful save but two
+	// don't make him invincible. Pre-existing healing audio for the cue.
+	if (_item.type == "potion")
+	{
+		_doozle.hp = min(_doozle.max_hp, _doozle.hp + 50);
+		audio_play_sound(snd_health_pickup_01, 0, 0);
+		use_input = false;
+		return;
+	}
+
+	// Swap: if Doozle is already wielding something, drop the old item at his
+	// position so it isn't silently destroyed. Grizzelda can re-pick it later.
+	if (_doozle.equipped_item != undefined)
+	{
+		spawn_world_item(_doozle.equipped_item, _doozle.x, _doozle.y);
+	}
 
 	_doozle.equipped_item = _item;
 	_doozle.doozle_init_equipped();		// stamps per-type combat stats onto the struct

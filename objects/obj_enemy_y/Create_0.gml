@@ -30,9 +30,15 @@ spawn_y			= y;
 
 // --- Dive state machine ---------------------------------------------------------
 //   "hover"  — bob in place at spawn position
-//   "dive"   — descend toward Doozle's position at dive_speed
+//   "dive"   — descend toward dive_target's position at dive_speed
 //   "return" — climb back to spawn at return_speed (smooth, not teleport)
+//
+// dive_target is set in HOVER when a candidate enters the trigger cone:
+// Grizzelda is checked first, Doozle is the fallback when she's out of range.
+// (The fairy goes for the squire when she's available — she's the squishier
+// target. Doozle's the consolation prize.)
 state			= "hover";
+dive_target		= noone;
 
 // Trigger geometry: Doozle must be within this many px horizontally AND below
 // us by at least dive_min_dy (so we don't dive sideways at someone level with
@@ -43,4 +49,4 @@ dive_max_dy		= 800;
 
 dive_speed		= 9;
 return_speed	= 4;
-dive_damage		= 20;	// per hit; consumed once then we go to return state
+dive_damage		= 10;	// per hit on Doozle; consumed once then we return state

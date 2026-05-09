@@ -44,12 +44,40 @@ else
 
 	// Enemy arrow vs Sir Doozle — straight hp drain on his 100 pool. No i-frame
 	// system on him; if you're getting peppered with arrows, that's the game.
-	// 10 dmg/arrow is light enough that a single archer takes ~10 shots to drop
-	// him, giving Grizzelda time to deliver a sword.
+	// 6 dmg/arrow means a single archer takes ~17 shots to drop him from full,
+	// giving Grizzelda generous time to deliver a sword/shield/potion.
 	var _doozle_hit = instance_place(x, y, obj_sir_doozle);
 	if (_doozle_hit != noone)
 	{
-		_doozle_hit.hp -= 10;
+		// Shield reflection: if Doozle has a wielded shield with charges
+		// left, the arrow flips back at the original team (now friendly)
+		// and a charge is consumed. The shield breaks at 0 charges — same
+		// rule do_swing uses for melee blocks.
+		var _has_shield = (_doozle_hit.equipped_item != undefined
+						&& _doozle_hit.equipped_item.type == "shield"
+						&& _doozle_hit.equipped_item.charges > 0);
+
+		if (_has_shield)
+		{
+			team		= "knight";			// now hits enemies, not Grizzelda/Doozle
+			vel_x		= -vel_x;
+			vel_y		= -vel_y;
+			image_angle	= (image_angle + 180) mod 360;
+			image_xscale = (vel_x < 0) ? -1 : 1;
+
+			_doozle_hit.equipped_item.charges -= 1;
+			if (_doozle_hit.equipped_item.charges <= 0)
+			{
+				_doozle_hit.equipped_item = undefined;	// shield shatters
+			}
+
+			audio_play_sound(snd_enemy_hit, 0, 0);
+			// Don't destroy — bounced arrow flies on. Next frame's move
+			// step carries it out of Doozle's mask.
+			exit;
+		}
+
+		_doozle_hit.hp -= 6;
 		audio_play_sound(snd_life_lost_01, 0, 0);
 		instance_destroy();
 		exit;

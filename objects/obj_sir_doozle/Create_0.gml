@@ -41,7 +41,7 @@ doozle_init_equipped = function()
 	switch (equipped_item.type)
 	{
 		case "sword":		equipped_item.durability	= 90;	break;
-		case "shield":		equipped_item.charges		= 3;	break;
+		case "shield":		equipped_item.charges		= 5;	break;
 		case "crossbow":	equipped_item.ammo			= 3;	break;
 		// jumpfruit / coin / anything else: no combat stats — held but inert.
 	}

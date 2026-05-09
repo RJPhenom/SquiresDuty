@@ -11,12 +11,21 @@ if (place_meeting(x + vel_x * 4, y, obj_collision))
 	vel_x = -vel_x;
 }
 
-// Face Sir Doozle so he visually tracks the knight (the actual threat that
-// can shoot him down). Run AFTER the parent's flip so this overrides the
-// vel_x-based auto-flip — important because at vel_x = 0 the parent leaves
-// xscale alone, but if you ever turn Y back into a patroller this still wins.
-// If Doozle is gone (defeated), we just hold the last facing direction.
-if (instance_exists(obj_sir_doozle))
+// Facing: while diving, lead with the dive_target so the swoop reads cleanly.
+// At rest or returning, face Sir Doozle so the visual still cues "the threat
+// the knight should worry about" rather than randomly flipping with the bob.
+// Holds last facing if both targets are gone.
+var _face_target = noone;
+if (state == "dive" && dive_target != noone && instance_exists(dive_target))
 {
-	image_xscale = (obj_sir_doozle.x < x) ? -1 : 1;
+	_face_target = dive_target;
+}
+else
+{
+	_face_target = instance_find(obj_sir_doozle, 0);
+}
+
+if (_face_target != noone)
+{
+	image_xscale = (_face_target.x < x) ? -1 : 1;
 }

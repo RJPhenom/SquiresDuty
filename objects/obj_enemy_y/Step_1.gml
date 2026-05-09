@@ -11,38 +11,61 @@ switch (state)
 		x = spawn_x;
 		y = spawn_y + sin(degtorad(bob_t)) * bob_amplitude;
 
-		// Trigger dive when Doozle is below us in a tight horizontal cone.
-		if (instance_exists(obj_sir_doozle))
+		// Trigger dive — check Grizzelda first (priority target), then
+		// Doozle if she's out of cone. dive_target is the picked instance.
+		dive_target = noone;
+
+		var _candidate = instance_find(obj_player, 0);
+		if (_candidate != noone)
 		{
-			var _dx = obj_sir_doozle.x - x;
-			var _dy = obj_sir_doozle.y - y;
+			var _dx = _candidate.x - x;
+			var _dy = _candidate.y - y;
 			if (abs(_dx) <= dive_trigger_x && _dy >= dive_min_dy && _dy <= dive_max_dy)
 			{
-				state = "dive";
+				dive_target = _candidate;
 			}
 		}
+
+		if (dive_target == noone)
+		{
+			_candidate = instance_find(obj_sir_doozle, 0);
+			if (_candidate != noone)
+			{
+				var _dx = _candidate.x - x;
+				var _dy = _candidate.y - y;
+				if (abs(_dx) <= dive_trigger_x && _dy >= dive_min_dy && _dy <= dive_max_dy)
+				{
+					dive_target = _candidate;
+				}
+			}
+		}
+
+		if (dive_target != noone) state = "dive";
 		break;
 
 	case "dive":
-		// Track Doozle's current position so a moving knight is harder to
-		// hit but still gets snapped at. If he's gone (defeated mid-dive),
-		// abort to return.
-		if (!instance_exists(obj_sir_doozle))
+		// Target may have died/despawned mid-dive; abort to return.
+		if (dive_target == noone || !instance_exists(dive_target))
 		{
 			state = "return";
 			break;
 		}
 
-		var _dir = point_direction(x, y, obj_sir_doozle.x, obj_sir_doozle.y);
+		var _dir = point_direction(x, y, dive_target.x, dive_target.y);
 		x += lengthdir_x(dive_speed, _dir);
 		y += lengthdir_y(dive_speed, _dir);
 
-		// Hit check: deal damage on contact, then peel off. Doozle has no
-		// own-side collision event for enemies, so we apply the damage here.
-		if (place_meeting(x, y, obj_sir_doozle))
+		// Hit check. Doozle has no enemy-collision event of his own, so
+		// damage is applied in-line if he's the target. Grizzelda's
+		// existing Collision_obj_enemy_parent fires automatically on
+		// overlap — we just peel off when she's been touched.
+		if (place_meeting(x, y, dive_target))
 		{
-			obj_sir_doozle.hp -= dive_damage;
-			audio_play_sound(snd_enemy_hit, 0, 0);
+			if (dive_target.object_index == obj_sir_doozle)
+			{
+				dive_target.hp -= dive_damage;
+				audio_play_sound(snd_enemy_hit, 0, 0);
+			}
 			state = "return";
 			break;
 		}
