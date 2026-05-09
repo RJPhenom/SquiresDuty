@@ -172,11 +172,41 @@ player_right = function()
 	right_input = false;
 };
 
-// F (or wherever else "use" is bound). Phase 1 use = hand-off to Sir Doozle when in range.
+// F use action. Branches by equipped item type:
+//   wood  → place a bridge in front of Grizzelda (consumes the item).
+//   else  → hand-off to Sir Doozle when in range.
+//
+// Wood is the squire's gap-filler: she can drop a plank for Doozle to walk
+// across, but only when she's standing on solid ground herself (so you can't
+// stair-step planks midair to skip terrain).
 player_use = function()
 {
 	if (equipped_index < 0) { use_input = false; return; }
 
+	var _equipped = backpack[equipped_index];
+
+	if (_equipped.type == "wood")
+	{
+		// Place ~32px ahead of her at her foot height. image_xscale tracks her
+		// facing (set in obj_character_parent.End Step), so we lay the plank in
+		// the direction she's looking.
+		var _facing = (image_xscale != 0) ? sign(image_xscale) : 1;
+		var _px = x + _facing * 32;
+		var _py = bbox_bottom;
+
+		// Don't place inside terrain — quick guard against burying the plank.
+		if (!position_meeting(_px, _py, obj_collision))
+		{
+			instance_create_layer(_px, _py, "Instances", obj_wood_placed);
+			backpack_take_equipped();		// consume the wood
+			audio_play_sound(snd_box_get, 0, 0);
+		}
+
+		use_input = false;
+		return;
+	}
+
+	// Default: hand the equipped item to Sir Doozle if he's nearby.
 	var _doozle = instance_nearest(x, y, obj_sir_doozle);
 	if (_doozle == noone) { use_input = false; return; }
 

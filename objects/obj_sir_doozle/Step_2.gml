@@ -1,14 +1,32 @@
 // Run the parent End Step (sprite flipping, defeat handling, invincibility flashing).
 event_inherited();
 
-// --- Combat detection: is there an enemy directly in front of him? --------------
-// Look 6px ahead at body height. If something's there, stop and fight; otherwise
-// keep marching. Using instance_place (rather than overlap with self) so combat
-// triggers on contact, not after they've intersected.
+// --- Combat detection: is there an enemy he can/should engage right now? -------
+// Two modes:
+//   melee — sword/shield/fists/jumpfruit/wood — look 6px ahead at body height.
+//   ranged — crossbow — scan ranged_check_radius around him (any direction)
+//            so he can engage R archers down the way and Y fliers overhead.
+// We always prefer the closer threat in ranged mode.
 var _enemy = noone;
-if (walk_dir != 0)
+var _has_crossbow = (equipped_item != undefined && equipped_item.type == "crossbow");
+
+if (_has_crossbow)
 {
-	_enemy = instance_place(x + walk_dir * 6, y, obj_enemy_parent);
+	var _best_d = ranged_check_radius;
+	with (obj_enemy_parent)
+	{
+		if (hp <= 0) continue;
+		var _d = point_distance(x, y, other.x, other.y);
+		if (_d <= _best_d)
+		{
+			_enemy = id;
+			_best_d = _d;
+		}
+	}
+}
+else if (walk_dir != 0)
+{
+	_enemy = instance_place(x + walk_dir * melee_check_dist, y, obj_enemy_parent);
 }
 
 if (_enemy != noone && _enemy.hp > 0)

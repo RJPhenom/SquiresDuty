@@ -16,9 +16,9 @@ if (collision_point(_mouse_gui_x, _mouse_gui_y, object_index, false, false) == i
 	// If the left mouse button is pressed,
 	if (mouse_check_button_pressed(mb_left))
 	{
-		// Reduce the scale of the instance so it appears smaller while it's pressed
-		image_xscale = 0.9;
-		image_yscale = 0.9;
+		// Squish to 90% of the resting scale while held.
+		image_xscale = natural_scale_x * 0.9;
+		image_yscale = natural_scale_y * 0.9;
 	}
 
 	// If the left mouse button is released (which is when we register a click),
@@ -30,10 +30,10 @@ if (collision_point(_mouse_gui_x, _mouse_gui_y, object_index, false, false) == i
 		// Call User Event 0 where the button performs its actions
 		event_user(0);
 	
-		// Reset the scale so the button appears at its normal size
-		image_xscale = 1;
-		image_yscale = 1;
-	
+		// Snap back to the resting scale.
+		image_xscale = natural_scale_x;
+		image_yscale = natural_scale_y;
+
 		// Play the button press sound effect
 		audio_play_sound(snd_button_press_01, 0, 0);
 	}
@@ -44,7 +44,7 @@ else
 	// Change the frame to the idle frame (0)
 	image_index = 0;
 
-	// Reset the scale so the button appears at its normal size
-	image_xscale = 1;
-	image_yscale = 1;
+	// Snap back to the resting scale.
+	image_xscale = natural_scale_x;
+	image_yscale = natural_scale_y;
 }

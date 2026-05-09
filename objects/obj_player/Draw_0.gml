@@ -27,13 +27,36 @@ for (var i = 0; i < _n; i++)
 	var _iy = _base_y - _cos_t * _running_h;
 	_running_h += _h * 0.5;
 
-	// Red equipped outline — drawn first so the item renders on top of it.
+	// Equipped indicator — draw the matching glow sprite UNDER the item so the
+	// item silhouette shows on top. Glow sprites are origin-aligned to their
+	// item sprites, so they overlay perfectly when drawn at the same point.
+	// Items without a glow (potion, wood, jumpfruit, coin, …) fall back to the
+	// soft red outline so selection is still visible.
 	if (i == equipped_index)
 	{
-		var _ow = sprite_get_width(_spr) * 0.55 + 4;
-		var _oh = sprite_get_height(_spr) * 0.55 + 4;
-		draw_set_color(c_red);
-		draw_rectangle(_ix - _ow, _iy - _oh, _ix + _ow, _iy + _oh, false);
+		var _glow = -1;
+		switch (_item.type)
+		{
+			case "sword":		_glow = spr_sword_glow;		break;
+			case "shield":		_glow = spr_shield_glow;	break;
+			case "crossbow":	_glow = spr_crossbow_glow;	break;
+		}
+
+		if (_glow != -1)
+		{
+			// Subtle pulse so the highlight reads as "selected" not "static art".
+			var _pulse = 0.85 + 0.15 * sin(current_time * 0.006);
+			draw_sprite_ext(_glow, 0, _ix, _iy, 1, 1, stack_tilt, c_white, _pulse);
+		}
+		else
+		{
+			var _ow = sprite_get_width(_spr) * 0.55 + 4;
+			var _oh = sprite_get_height(_spr) * 0.55 + 4;
+			draw_set_color(c_red);
+			draw_set_alpha(0.45);
+			draw_rectangle(_ix - _ow, _iy - _oh, _ix + _ow, _iy + _oh, false);
+			draw_set_alpha(1);
+		}
 	}
 
 	// Item sprite, leaned with the stack.

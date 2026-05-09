@@ -1,5 +1,10 @@
 event_inherited();
 
+// Default flag for ground-walking enemies. obj_enemy_y overrides to true; the
+// rest of the codebase (Sir Doozle's do_swing, the player's stomp check)
+// branches on this so melee can't reach a flier.
+is_flying = false;
+
 // This is the amount of damage the enemy does to the player.
 damage = 1;
 

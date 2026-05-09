@@ -42,78 +42,127 @@ doozle_init_equipped = function()
 	}
 };
 
+// --- Combat detection knobs ----------------------------------------------------
+// With a melee weapon, only the closest 6px ahead matter. With a crossbow he's
+// a sniper — he stops to fire at any threat in this radius, including fliers.
+melee_check_dist	= 6;
+ranged_check_radius	= 320;
+
 // --- Swing resolution ----------------------------------------------------------
-// Called from Step_2 when combat_swing_timer hits 0. _enemy is the obj_enemy
-// instance he's actively fighting. Applies damage in both directions based on
-// the equipped weapon and consumes weapon durability/charges. Sets equipped_item
-// = undefined when a weapon breaks.
+// Called from Step_2 when combat_swing_timer hits 0. _enemy is the threat he's
+// engaging — close-melee target for sword/shield/fists, line-of-sight target
+// for the crossbow.
+//
+// Applies damage in both directions based on the equipped weapon and consumes
+// weapon durability/charges/ammo. Sets equipped_item = undefined when a weapon
+// breaks/empties.
 do_swing = function(_enemy)
 {
 	// Default melee damage TO Sir Doozle from a melee enemy (GDD: melee = 15 dmg/atk).
 	// We hardcode this here rather than reading _enemy.damage so the small value used
 	// for Grizzelda's 3-heart bar (1) doesn't underflow against his 100hp pool.
-	var _melee_dmg_to_me = 15;
+	// Fliers can't melee him back — they only collide-damage Grizzelda — so when
+	// the target is_flying we zero this out below.
+	var _melee_dmg_to_me = _enemy.is_flying ? 0 : 15;
 
 	var _dmg_to_enemy	= 0;
 	var _dmg_to_me		= _melee_dmg_to_me;
+	var _is_ranged		= false;
 
 	if (equipped_item == undefined)
 	{
-		// Bare fists: GDD says 5 dmg to enemies, takes the full melee hit back.
-		_dmg_to_enemy = 5;
+		// Bare fists: 5 dmg to grounded enemies, can't reach a flier.
+		_dmg_to_enemy = _enemy.is_flying ? 0 : 5;
 	}
 	else
 	{
 		switch (equipped_item.type)
 		{
 			case "sword":
-				// 10 dmg/swing. Enemy melee is fully blocked while sword is up
-				// (GDD: "reduced to 0 or 5"). Sword loses 10 durability per hit.
-				_dmg_to_enemy = 10;
-				_dmg_to_me = 0;
-				equipped_item.durability -= 10;
-				if (equipped_item.durability <= 0)
+				// 10 dmg/swing on grounded enemies; can't reach fliers (GDD).
+				// Sword fully blocks melee return damage. -10 durability per
+				// connecting hit; on a missed swing (flier) durability stays.
+				if (_enemy.is_flying)
 				{
-					equipped_item = undefined;	// snapped — fists from here on
+					_dmg_to_enemy	= 0;
+					_dmg_to_me		= 0;
+				}
+				else
+				{
+					_dmg_to_enemy = 10;
+					_dmg_to_me = 0;
+					equipped_item.durability -= 10;
+					if (equipped_item.durability <= 0)
+					{
+						equipped_item = undefined;	// snapped — fists from here on
+					}
 				}
 				break;
 
 			case "shield":
 				// Shield doesn't kill, but it eats melee hits — GDD framing is
 				// arrow reflection but it's the closest analog for melee. 3 hits
-				// before it shatters.
+				// before it shatters. Useless against fliers (no contact, no
+				// charge consumed).
 				_dmg_to_enemy	= 0;
 				_dmg_to_me		= 0;
-				equipped_item.charges -= 1;
-				if (equipped_item.charges <= 0)
+				if (!_enemy.is_flying)
 				{
-					equipped_item = undefined;
+					equipped_item.charges -= 1;
+					if (equipped_item.charges <= 0)
+					{
+						equipped_item = undefined;
+					}
 				}
 				break;
 
 			case "crossbow":
-				// Per GDD the crossbow only fires at flying enemies (which don't
-				// exist yet). At melee range it's effectively useless — he ends
-				// up swinging it like a club for fist damage and takes full hits.
-				// TODO: when obj_enemy_flying exists, separate AI handles ranged
-				// firing (auto-track arrow projectile, 25 dmg, ammo--).
-				_dmg_to_enemy = 5;
+				// Spawn an arrow toward the target instead of dealing damage
+				// directly. Arrow handles its own collision + damage on impact.
+				// 25 dmg / arrow per GDD; ammo-- per shot, breaks at 0.
+				_is_ranged = true;
+				_dmg_to_me = 0;	// firing position is safe; melee return fires
+								// only if the enemy is touching him AND he chose
+								// to shoot anyway. Acceptable simplification.
+
+				var _ax = x;
+				var _ay = y - 24;
+				var _dir = point_direction(_ax, _ay, _enemy.x, _enemy.y - 24);
+
+				var _arrow = instance_create_layer(_ax, _ay, "Instances", obj_arrow);
+				_arrow.team			= "knight";
+				_arrow.damage		= 25;
+				_arrow.vel_x		= lengthdir_x(14, _dir);
+				_arrow.vel_y		= lengthdir_y(14, _dir);
+				_arrow.image_angle	= _dir;
+				_arrow.image_xscale	= sign(_arrow.vel_x);
+				if (_arrow.image_xscale == 0) _arrow.image_xscale = 1;
+
+				equipped_item.ammo -= 1;
+				if (equipped_item.ammo <= 0)
+				{
+					equipped_item = undefined;	// out of arrows
+				}
 				break;
 
 			case "jumpfruit":
 				// GDD: jumpfruit only enables Grizzelda's multi-jump. Useless to
-				// the knight — fist-equivalent damage in/out.
-				_dmg_to_enemy = 5;
+				// the knight — fist-equivalent damage in/out, can't reach fliers.
+				_dmg_to_enemy = _enemy.is_flying ? 0 : 5;
 				break;
 
 			default:
-				_dmg_to_enemy = 5;
+				_dmg_to_enemy = _enemy.is_flying ? 0 : 5;
 				break;
 		}
 	}
 
-	_enemy.hp	-= _dmg_to_enemy;
-	hp			-= _dmg_to_me;
+	// Ranged path applies damage via the arrow on impact, not here.
+	if (!_is_ranged)
+	{
+		_enemy.hp -= _dmg_to_enemy;
+	}
+	hp -= _dmg_to_me;
 
 	audio_play_sound(snd_enemy_hit, 0, 0);
 };
