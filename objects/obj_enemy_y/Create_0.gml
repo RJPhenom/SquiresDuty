@@ -7,8 +7,11 @@ event_inherited();
 defeated_object = obj_enemy_defeated;
 is_flying = true;
 
-move_speed	= 2.5;
-vel_x		= choose(-move_speed, move_speed);
+// Hovers in place — only the vertical bob in Step_1 moves him. If you want
+// patrolling fliers later, restore move_speed and vel_x = choose(±move_speed)
+// and the wall-flip in Step_2 will handle bouncing him off geometry.
+move_speed	= 0;
+vel_x		= 0;
 vel_y		= 0;
 
 max_hp	= 30;
@@ -22,4 +25,22 @@ damage = 1;
 // alive without needing pathfinding.
 bob_t			= random(360);
 bob_amplitude	= 6;
+spawn_x			= x;
 spawn_y			= y;
+
+// --- Dive state machine ---------------------------------------------------------
+//   "hover"  — bob in place at spawn position
+//   "dive"   — descend toward Doozle's position at dive_speed
+//   "return" — climb back to spawn at return_speed (smooth, not teleport)
+state			= "hover";
+
+// Trigger geometry: Doozle must be within this many px horizontally AND below
+// us by at least dive_min_dy (so we don't dive sideways at someone level with
+// us). dive_max_dy caps how far down we'll chase before giving up.
+dive_trigger_x	= 300;
+dive_min_dy		= 50;
+dive_max_dy		= 800;
+
+dive_speed		= 9;
+return_speed	= 4;
+dive_damage		= 20;	// per hit; consumed once then we go to return state

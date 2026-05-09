@@ -2,30 +2,30 @@
 // even, no "first shot fires the instant you walk into range" issue.
 fire_cooldown -= 1;
 
-// Find Grizzelda (priority target) or Sir Doozle if she's out of range.
-// We fire at whichever is closer and within our sight band.
+// Doozle is the priority target — he's the threat that fights back. Only
+// fall through to Grizzelda if Doozle is dead or out of sight band.
 var _target = noone;
-var _best_dist = fire_range;
-
-with (obj_player)
-{
-	var _dx = abs(x - other.x);
-	var _dy = abs(y - other.y);
-	if (_dy <= other.fire_y_band && _dx <= _best_dist)
-	{
-		_target = id;
-		_best_dist = _dx;
-	}
-}
 
 with (obj_sir_doozle)
 {
 	var _dx = abs(x - other.x);
 	var _dy = abs(y - other.y);
-	if (_dy <= other.fire_y_band && _dx <= _best_dist)
+	if (_dy <= other.fire_y_band && _dx <= other.fire_range)
 	{
 		_target = id;
-		_best_dist = _dx;
+	}
+}
+
+if (_target == noone)
+{
+	with (obj_player)
+	{
+		var _dx = abs(x - other.x);
+		var _dy = abs(y - other.y);
+		if (_dy <= other.fire_y_band && _dx <= other.fire_range)
+		{
+			_target = id;
+		}
 	}
 }
 

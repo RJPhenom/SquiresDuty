@@ -1,6 +1,11 @@
 // Inherit obj_character_parent (vel_x/y, gravity, friction, hp scaffolding).
 event_inherited();
 
+// Override the inherited default (which is obj_player_defeated — Grizzelda's
+// death anim). When Doozle's hp hits 0, character_parent.End Step swaps in
+// THIS object instead, which plays his own death-flop and restarts the room.
+defeated_object = obj_doozle_defeated;
+
 // Sir Doozle walks on his own. Per GDD he moves at ~⅓ Grizzelda's pace; her
 // move_speed is 8, so 3 keeps him visibly slower without being a snail.
 move_speed	= 3;
