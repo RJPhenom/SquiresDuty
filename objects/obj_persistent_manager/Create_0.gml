@@ -14,8 +14,9 @@ if (os_browser != browser_not_a_browser)
 	display_set_gui_size(1920, 1080);
 }
 
-// Play music track with looping enabled
-audio_play_sound(snd_music_level, 0, true);
+// Music starts in Other_4 (Room Start) — that handler picks the right track
+// based on the current room and is_playing-checks to avoid restarts on
+// level-to-level transitions.
 
 // Set the falloff model used for all audio emitters, like in obj_end_gate
 audio_falloff_set_model(audio_falloff_linear_distance_clamped);

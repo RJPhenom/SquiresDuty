@@ -8,5 +8,8 @@ if (!variable_global_exists("doozle_reached_end") || !global.doozle_reached_end)
 	exit;
 }
 
-instance_create_layer(x, y, layer, obj_player_end_level);
+// Pass the SPECIFIC gate she hit so the fade walks toward it correctly even
+// when the level has multiple gates (debug or otherwise).
+var _end = instance_create_layer(x, y, layer, obj_player_end_level);
+_end.target_gate = other.id;
 instance_destroy();

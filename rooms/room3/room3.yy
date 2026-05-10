@@ -11,7 +11,6 @@
     {"name":"inst_1D040E76_1","path":"rooms/room3/room3.yy",},
     {"name":"inst_2D2DAF57_1","path":"rooms/room3/room3.yy",},
     {"name":"inst_56DFF6E2_1","path":"rooms/room3/room3.yy",},
-    {"name":"inst_6761D82","path":"rooms/room3/room3.yy",},
     {"name":"inst_5C6FDE37","path":"rooms/room3/room3.yy",},
     {"name":"inst_7EB306F5","path":"rooms/room3/room3.yy",},
     {"name":"inst_2E1AA9B2","path":"rooms/room3/room3.yy",},
@@ -53,7 +52,6 @@
   "layers":[
     {"$GMRInstanceLayer":"","%Name":"Instances","depth":0,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v4","%Name":"inst_56DFF6E2_1","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_56DFF6E2_1","objectId":{"name":"obj_hud_doozle_hp","path":"objects/obj_hud_doozle_hp/obj_hud_doozle_hp.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":7.0,"scaleY":5.0,"x":64.0,"y":1824.0,},
-        {"$GMRInstance":"v4","%Name":"inst_6761D82","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_6761D82","objectId":{"name":"obj_persistent_manager","path":"objects/obj_persistent_manager/obj_persistent_manager.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":96.0,"y":1440.0,},
         {"$GMRInstance":"v4","%Name":"inst_5C6FDE37","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_5C6FDE37","objectId":{"name":"obj_game_manager","path":"objects/obj_game_manager/obj_game_manager.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":-224.0,"y":1216.0,},
         {"$GMRInstance":"v4","%Name":"inst_37B483B3_1","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_37B483B3_1","objectId":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":96.0,"y":2080.0,},
         {"$GMRInstance":"v4","%Name":"inst_69D33881_1","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_69D33881_1","objectId":{"name":"obj_sir_doozle","path":"objects/obj_sir_doozle/obj_sir_doozle.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":224.0,"y":2080.0,},
@@ -146,7 +144,7 @@
   "viewSettings":{
     "clearDisplayBuffer":true,
     "clearViewBackground":false,
-    "enableViews":false,
+    "enableViews":true,
     "inheritViewSettings":false,
   },
   "volume":1.0,

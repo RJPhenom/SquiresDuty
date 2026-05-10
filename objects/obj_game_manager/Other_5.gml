@@ -7,9 +7,8 @@ audio_sound_gain(snd_amb_trees, vol_trees, 0);
 
 audio_sound_gain(snd_amb_wind, vol_wind, 0);
 
-// Stop music and ambient audio
-audio_stop_sound(snd_music_level);
-
+// Stop ambient audio (music is owned by obj_persistent_manager — let it
+// keep handling track switches based on the next room).
 audio_stop_sound(snd_amb_cave_01);
 
 audio_stop_sound(snd_amb_cave_02);

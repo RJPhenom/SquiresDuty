@@ -1,50 +1,46 @@
-// This runs the parent's Step event.
+// Run the parent's Step event (gravity, friction, pixel-perfect movement).
 event_inherited();
 
-// This checks if the current X position is not equal to the end gate's X position, meaning the
-// player is not standing in the center of the gate.
-// In that case we want to move it there before fading it.
-if (x != obj_end_gate.x)
+// target_gate is set by the spawning collision event (obj_player's gate
+// collision passes other.id). Without that, fall back to the first end_gate
+// instance — but rooms with multiple gates only behave right when target_gate
+// is set explicitly.
+if (!variable_instance_exists(id, "target_gate") || target_gate == noone)
 {
-	// This sets the X velocity so the player moves to the center of the gate.
-	// The velocity is calculated by getting the relative X value from the player to the end gate, then getting
-	// its sign (1 or -1) and multiplying that by 4 (which becomes the speed).
-	vel_x = sign(obj_end_gate.x - x) * 4;
+	target_gate = (instance_exists(obj_end_gate)) ? instance_find(obj_end_gate, 0) : noone;
+}
 
-	// This changes the sprite of the instance to the walking sprite, as the player is currently walking to the
-	// center of the gate.
+if (target_gate == noone || !instance_exists(target_gate))
+{
+	// Gate destroyed mid-fade or never set. Skip to the room change so we
+	// don't softlock with a partially faded Grizzelda.
+	room_goto_next();
+	exit;
+}
+
+if (x != target_gate.x)
+{
+	// Walking phase — toward the SPECIFIC gate she hit, slower than her
+	// gameplay run.
+	vel_x = sign(target_gate.x - x) * 4;
 	sprite_index = spr_grizzelda_run;
-
-	// This reduces the animation speed slightly as the player is supposed to be walking slower than usual.
 	image_speed = 0.7;
 
-	// This checks if the absolute difference between the player and the gate (on the X axis) is less than 5, meaning the
-	// player has (almost) reached the center of the gate.
-	if (abs(obj_end_gate.x - x) < 5)
+	if (abs(target_gate.x - x) < 5)
 	{
-		// In that case we set the player's X position to the gate's X position so it jumps there.
-		x = obj_end_gate.x;
-	
-		// Then we reset the X velocity to 0 so the player stops.
+		x = target_gate.x;
 		vel_x = 0;
 	}
 }
-// This else part runs when the player is standing at the center of the gate, meaning it can fade now.
 else
 {
-	// This changes the sprite to the idle sprite as the player is now standing.
+	// Standing-at-gate phase — fade out.
 	sprite_index = spr_grizzelda_idle;
-
-	// This reduces the alpha of the instance, making it fade away.
 	image_alpha += -0.02;
-
-	// This sets the animation speed back to normal (as it was changed during the walking state).
 	image_speed = 1;
 
-	// This checks if the alpha is at or below 0, meaning the instance is invisible now.
 	if (image_alpha <= 0)
 	{
-		// In that case we move to the next room.
 		room_goto_next();
 	}
 }

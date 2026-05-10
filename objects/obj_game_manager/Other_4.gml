@@ -1,8 +1,9 @@
 // Get the CollisionTiles layer tilemap ID
 collision_tilemap = layer_tilemap_get_id("CollisionTiles");
 
-// Play music track with looping enabled
-audio_play_sound(snd_music_level, 0, 1);
+// Music is handled in obj_persistent_manager.Other_4 — single source of
+// truth across rooms so gameplay music doesn't restart at every level
+// transition. We only manage per-room ambient audio here.
 
 // Play ambient audio with looping enabled
 audio_play_sound(snd_amb_trees, 0, 1);

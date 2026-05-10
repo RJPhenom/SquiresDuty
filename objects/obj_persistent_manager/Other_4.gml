@@ -1,6 +1,30 @@
-// If we're in the end room
-if (room == rm_end)
+// Music routing — single source of truth for which track plays in each
+// context. Only swaps when the context changes; gameplay music plays
+// continuously across level-to-level transitions because we don't restart
+// it if it's already playing.
+//
+// rm_menu      → Squire_Title_RTv1
+// rm_end       → (nothing for now; end music is WIP)
+// everything else (gameplay levels) → Squire_gameplay_RT_v1
+if (room == rm_menu)
 {
-	// Play music track with looping enabled
-	audio_play_sound(snd_music_level, 0, 1);
+	if (!audio_is_playing(Squire_Title_RTv1))
+	{
+		audio_stop_sound(Squire_gameplay_RT_v1);
+		audio_play_sound(Squire_Title_RTv1, 0, true);
+	}
+}
+else if (room == rm_end)
+{
+	// TODO: when end-screen track is imported, swap this for that.
+	audio_stop_sound(Squire_Title_RTv1);
+	audio_stop_sound(Squire_gameplay_RT_v1);
+}
+else
+{
+	if (!audio_is_playing(Squire_gameplay_RT_v1))
+	{
+		audio_stop_sound(Squire_Title_RTv1);
+		audio_play_sound(Squire_gameplay_RT_v1, 0, true);
+	}
 }
