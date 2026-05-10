@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"Sprites",
-    "path":"folders/Sprites.yy",
+    "name":"gio sprites",
+    "path":"folders/gio-Squire's Duty/gio sprites.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
