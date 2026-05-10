@@ -259,6 +259,17 @@ player_use = function()
 
 	if (_equipped.type == "wood")
 	{
+		// ============================================================
+		// WOOD PLACEMENT TWEAK ZONE — adjust 1px at a time, hold F1 in
+		// game to see bboxes (green = player, red = collision).
+		// ============================================================
+		// Marker-based bridge segments (obj_bridge_segment):
+		var _bridge_outer_y_nudge  = 0;     // first + last segments collision Y
+		var _bridge_middle_y_nudge = -1;    // middle segments collision Y
+		// Free-form planks (obj_wood_placed) — vertical clearance from her feet:
+		var _plank_y_clearance     = 2;     // 0 = touching (blocks); 1-3 = clearance
+		// ============================================================
+
 		// --- Bridge mode: fill if a connection marker is nearby --------------
 		// Level designers place obj_legal_plank_connection markers in pairs to
 		// define legal bridge spans. If Grizzelda is near a marker, we spawn
@@ -303,14 +314,10 @@ player_use = function()
 				// spr_block_coins_inactive, walkable via obj_collision parent)
 				// at sprite-width steps across the gap.
 				//
-				// =========== TWEAK ZONE — adjust if bridges look uneven ===========
-				// Per-segment Y nudges (negative = pixel up, positive = down).
-				// First and last segments use _outer_y_nudge; everything between
-				// uses _middle_y_nudge. Game-jam knobs — bump 1 at a time until
-				// the row visually matches the surrounding platforms.
-				var _outer_y_nudge	= 0;
-				var _middle_y_nudge	= -2;
-				// ===================================================================
+				// Per-segment Y nudges come from the WOOD PLACEMENT TWEAK ZONE
+				// at the top of player_use. Edit there, not here.
+				var _outer_y_nudge	= _bridge_outer_y_nudge;
+				var _middle_y_nudge	= _bridge_middle_y_nudge;
 
 				var _seg_w		= sprite_get_width(spr_block_coins_inactive);
 				var _y_pix		= _connector.y;
@@ -364,8 +371,10 @@ player_use = function()
 		var _near_ext		= (_facing > 0) ? _plank_left_ext : _plank_right_ext;
 		var _px				= _player_edge + _facing * (_near_ext + 2);
 
-		// Plank's top edge flush with her feet so she steps onto it seamlessly.
-		var _py				= bbox_bottom + _plank_top_ext;
+		// Plank's collision top offset below her feet by _plank_y_clearance
+		// (from the tweak zone at the top of player_use). 0 = touching (will
+		// trap her); 1-3 typical; bump higher if she catches on the seam.
+		var _py				= bbox_bottom + _plank_top_ext + _plank_y_clearance;
 
 		// Don't place inside terrain — quick guard against burying the plank.
 		if (!position_meeting(_px, _py, obj_collision))

@@ -18,16 +18,9 @@ if (gamepad != undefined)
 		}
 	}
 
-	// This checks if the room is rm_end, meaning we're on the game over screen.
-	if ( room == rm_end)
-	{
-		// This checks if the Start button was pressed on our gamepad.
-		if (gamepad_button_check_pressed(gamepad, gp_start))
-		{
-			// In that case, we go back to the main menu room.
-			room_goto(rm_menu);
-		}
-	}
+	// (rm_end was removed from the project — the Start-to-return-to-menu
+	// hook lived here. If you ever re-add a game-over / end-screen room,
+	// re-introduce this block referencing whatever you call the new room.)
 
 	// This checks if the player instance exists, meaning we're in a game level. We're checking for the player instance and not
 	// a specific room like previous conditions, because there can be many game levels with different room names.

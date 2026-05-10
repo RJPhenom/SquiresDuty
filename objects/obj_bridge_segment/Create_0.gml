@@ -3,4 +3,4 @@
 // the bridge tops visually align with surrounding platforms.
 //   negative = sprite drawn higher
 //   positive = sprite drawn lower
-visual_y_offset = 1;
+visual_y_offset = -0

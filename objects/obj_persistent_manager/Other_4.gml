@@ -6,7 +6,6 @@
 // rm_menu             → Squire_Title_RTv1
 // rm_cutscene_intro   → silence (video has its own audio)
 // rm_cutscene_outro   → silence (video has its own audio)
-// rm_end              → (nothing for now; end music is WIP)
 // everything else (gameplay levels) → Squire_gameplay_RT_v1
 if (room == rm_menu)
 {
@@ -21,12 +20,6 @@ else if (room == rm_cutscene_intro || room == rm_cutscene_outro)
 	// Cutscene rooms — silence game music so the video's own audio comes
 	// through clean. The cutscene player objects also call audio_stop_all
 	// belt-and-suspenders.
-	audio_stop_sound(Squire_Title_RTv1);
-	audio_stop_sound(Squire_gameplay_RT_v1);
-}
-else if (room == rm_end)
-{
-	// TODO: when end-screen track is imported, swap this for that.
 	audio_stop_sound(Squire_Title_RTv1);
 	audio_stop_sound(Squire_gameplay_RT_v1);
 }

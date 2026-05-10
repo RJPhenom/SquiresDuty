@@ -84,3 +84,26 @@ draw_set_color(c_white);
 // Grizzelda renders LAST so the backpack stack appears behind her instead of
 // covering her face when the stack tilts forward.
 draw_self();
+
+// --- DEBUG: hold F1 to see collision bboxes -------------------------------
+// Draws outlined rectangles around the player's bbox AND every obj_collision
+// child (floating blocks, bridges, placed wood) so you can visually see where
+// the actual hit-test geometry is. Useful for tuning bridge/plank seams.
+//   green  = player bbox
+//   red    = obj_collision children (bridges, walls, placed wood, etc.)
+if (keyboard_check(vk_f1))
+{
+	draw_set_alpha(0.65);
+
+	draw_set_color(c_lime);
+	draw_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, true);
+
+	draw_set_color(c_red);
+	with (obj_collision)
+	{
+		draw_rectangle(bbox_left, bbox_top, bbox_right, bbox_bottom, true);
+	}
+
+	draw_set_alpha(1);
+	draw_set_color(c_white);
+}
