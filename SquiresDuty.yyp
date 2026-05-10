@@ -10,6 +10,7 @@
   },
   "defaultScriptType":0,
   "Folders":[
+    {"$GMFolder":"","%Name":"Custscenes","folderPath":"folders/Custscenes.yy","name":"Custscenes","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"Fonts","folderPath":"folders/Fonts.yy","name":"Fonts","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"gio-Squire's Duty","folderPath":"folders/gio-Squire's Duty.yy","name":"gio-Squire's Duty","resourceType":"GMFolder","resourceVersion":"2.0",},
     {"$GMFolder":"","%Name":"gio sprites","folderPath":"folders/gio-Squire's Duty/gio sprites.yy","name":"gio sprites","resourceType":"GMFolder","resourceVersion":"2.0",},
@@ -74,7 +75,10 @@
     {"link":"io.gamemaker.gm_effect_windblown_particles-1.0.0","name":"io.gamemaker.gm_effect_windblown_particles-1.0.0","path":"io.gamemaker.gm_effect_windblown_particles-1.0.0.yyp",},
     {"link":"io.gamemaker.gm_filter_underwater-1.0.0","name":"io.gamemaker.gm_filter_underwater-1.0.0","path":"io.gamemaker.gm_filter_underwater-1.0.0.yyp",},
   ],
-  "IncludedFiles":[],
+  "IncludedFiles":[
+    {"$GMIncludedFile":"","%Name":"Squire's Duty Intro.mp4","CopyToMask":-1,"filePath":"datafiles","name":"Squire's Duty Intro.mp4","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+    {"$GMIncludedFile":"","%Name":"Squire's Duty Outro.mp4","CopyToMask":-1,"filePath":"datafiles","name":"Squire's Duty Outro.mp4","resourceType":"GMIncludedFile","resourceVersion":"2.0",},
+  ],
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
@@ -102,6 +106,8 @@
     {"id":{"name":"obj_coin_collect_effect","path":"objects/obj_coin_collect_effect/obj_coin_collect_effect.yy",},},
     {"id":{"name":"obj_coin","path":"objects/obj_coin/obj_coin.yy",},},
     {"id":{"name":"obj_collision","path":"objects/obj_collision/obj_collision.yy",},},
+    {"id":{"name":"obj_cutscene_intro","path":"objects/obj_cutscene_intro/obj_cutscene_intro.yy",},},
+    {"id":{"name":"obj_cutscene_outro","path":"objects/obj_cutscene_outro/obj_cutscene_outro.yy",},},
     {"id":{"name":"obj_dirt","path":"objects/obj_dirt/obj_dirt.yy",},},
     {"id":{"name":"obj_doozle_defeated","path":"objects/obj_doozle_defeated/obj_doozle_defeated.yy",},},
     {"id":{"name":"obj_doozle_end_level","path":"objects/obj_doozle_end_level/obj_doozle_end_level.yy",},},
@@ -157,6 +163,8 @@
     {"id":{"name":"obj_touch_button_right","path":"objects/obj_touch_button_right/obj_touch_button_right.yy",},},
     {"id":{"name":"obj_tree","path":"objects/obj_tree/obj_tree.yy",},},
     {"id":{"name":"obj_wood_placed","path":"objects/obj_wood_placed/obj_wood_placed.yy",},},
+    {"id":{"name":"rm_cutscene_intro","path":"rooms/rm_cutscene_intro/rm_cutscene_intro.yy",},},
+    {"id":{"name":"rm_cutscene_outro","path":"rooms/rm_cutscene_outro/rm_cutscene_outro.yy",},},
     {"id":{"name":"rm_end","path":"rooms/rm_end/rm_end.yy",},},
     {"id":{"name":"rm_level_1","path":"rooms/rm_level_1/rm_level_1.yy",},},
     {"id":{"name":"rm_level_2","path":"rooms/rm_level_2/rm_level_2.yy",},},
@@ -353,6 +361,8 @@
   "resourceVersion":"2.0",
   "RoomOrderNodes":[
     {"roomId":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},},
+    {"roomId":{"name":"rm_cutscene_outro","path":"rooms/rm_cutscene_outro/rm_cutscene_outro.yy",},},
+    {"roomId":{"name":"rm_cutscene_intro","path":"rooms/rm_cutscene_intro/rm_cutscene_intro.yy",},},
     {"roomId":{"name":"room1","path":"rooms/room1/room1.yy",},},
     {"roomId":{"name":"room2","path":"rooms/room2/room2.yy",},},
     {"roomId":{"name":"room3","path":"rooms/room3/room3.yy",},},
