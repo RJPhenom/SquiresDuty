@@ -36,6 +36,9 @@
     "name":"spr_grizzelda_run",
     "path":"sprites/spr_grizzelda_run/spr_grizzelda_run.yy",
   },
-  "spriteMaskId":null,
+  "spriteMaskId":{
+    "name":"spr_grizzelda_idle",
+    "path":"sprites/spr_grizzelda_idle/spr_grizzelda_idle.yy",
+  },
   "visible":true,
 }
