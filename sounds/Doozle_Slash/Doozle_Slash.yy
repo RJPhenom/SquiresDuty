@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"Doozle_Slash",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.93780047,
+  "exportDir":"",
+  "name":"Doozle_Slash",
+  "parent":{
+    "name":"Imports",
+    "path":"folders/Sounds/SFX/Imports.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"Doozle_Slash.wav",
+  "volume":1.0,
+}

@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"coin_sound",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.36573696,
+  "exportDir":"",
+  "name":"coin_sound",
+  "parent":{
+    "name":"Imports",
+    "path":"folders/Sounds/SFX/Imports.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"coin_sound.wav",
+  "volume":1.0,
+}

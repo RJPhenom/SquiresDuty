@@ -172,8 +172,7 @@ player_jump = function()
 
 				instance_create_layer(x, bbox_bottom, "Instances", obj_effect_jump);
 
-				var _sound = audio_play_sound(snd_jump, 0, 0);
-				audio_sound_pitch(_sound, random_range(1.0, 1.2));	// brighter pitch to read as "boost"
+				audio_play_sound(Jump2, 0, 0);
 
 				has_double_jumped = true;
 			}
@@ -200,8 +199,7 @@ player_jump = function()
 
 	instance_create_layer(x, bbox_bottom, "Instances", obj_effect_jump);
 
-	var _sound = audio_play_sound(snd_jump, 0, 0);
-	audio_sound_pitch(_sound, random_range(0.8, 1));
+	audio_play_sound(Jump, 0, 0);
 
 	jump_input = false;
 };
@@ -241,7 +239,7 @@ player_drop = function()
 	if (_item == undefined) { drop_input = false; return; }
 
 	spawn_world_item(_item, x, y);
-	audio_play_sound(snd_box_get, 0, 0);
+	audio_play_sound(Get_Item_3, 0, 0);
 
 	drop_input = false;
 };
@@ -341,7 +339,7 @@ player_use = function()
 				instance_destroy(_sibling);
 
 				backpack_take_equipped();
-				audio_play_sound(snd_box_get, 0, 0);
+				audio_play_sound(Get_Item_3, 0, 0);
 				use_input = false;
 				return;
 			}
@@ -374,7 +372,7 @@ player_use = function()
 		{
 			instance_create_layer(_px, _py, "Instances", obj_wood_placed);
 			backpack_take_equipped();		// consume the wood
-			audio_play_sound(snd_box_get, 0, 0);
+			audio_play_sound(Get_Item_3, 0, 0);
 		}
 
 		use_input = false;
@@ -400,7 +398,7 @@ player_use = function()
 	if (_item.type == "potion")
 	{
 		_doozle.hp = min(_doozle.max_hp, _doozle.hp + 50);
-		audio_play_sound(snd_health_pickup_01, 0, 0);
+		audio_play_sound(Heal, 0, 0);
 		use_input = false;
 		return;
 	}
@@ -415,7 +413,7 @@ player_use = function()
 	_doozle.equipped_item = _item;
 	_doozle.doozle_init_equipped();		// stamps per-type combat stats onto the struct
 
-	audio_play_sound(snd_box_get, 0, 0);
+	audio_play_sound(Get_Item_2, 0, 0);
 
 	use_input = false;
 };

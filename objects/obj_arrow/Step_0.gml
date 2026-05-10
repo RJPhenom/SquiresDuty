@@ -11,7 +11,17 @@ if (team == "knight")
 	if (_hit != noone)
 	{
 		_hit.hp -= damage;
-		audio_play_sound(snd_enemy_hit, 0, 0);
+
+		// Per-enemy hit sound — falls back to generic Enemy_Death on unknown.
+		var _hit_sound = snd_enemy_hit;
+		switch (_hit.object_index)
+		{
+			case obj_enemy_r: _hit_sound = Archer_Damage;		break;
+			case obj_enemy_y: _hit_sound = BadFairy_Damage;		break;
+			case obj_enemy_b: _hit_sound = BlueMonster_Damage;	break;
+		}
+		audio_play_sound(_hit_sound, 0, 0);
+
 		instance_destroy();
 		exit;
 	}
@@ -35,7 +45,7 @@ else
 			_player_hit.sprite_index = spr_grizzelda_run_exhausted;
 			_player_hit.image_index = 0;
 			_player_hit.alarm[0] = 15;
-			audio_play_sound(snd_life_lost_01, 0, 0);
+			audio_play_sound(Damage, 0, 0);
 			_player_hit.backpack_drop_top();
 		}
 		instance_destroy();
@@ -84,7 +94,7 @@ else
 		}
 
 		_doozle_hit.hp -= 6;
-		audio_play_sound(snd_life_lost_01, 0, 0);
+		audio_play_sound(Damage_2, 0, 0);
 		instance_destroy();
 		exit;
 	}

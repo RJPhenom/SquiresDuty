@@ -18,6 +18,6 @@ if (bbox_top > room_height)
 		vel_x = 0;
 		vel_y = 0;
 
-		audio_play_sound(snd_life_lost_01, 0, 0);
+		audio_play_sound(Damage_2, 0, 0);
 	}
 }

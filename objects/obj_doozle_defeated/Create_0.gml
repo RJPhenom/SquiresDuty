@@ -11,6 +11,7 @@ image_xscale = 1;
 // Start the pixelate transition timer.
 alarm[0] = 30;
 
-// Stop all playing audio and play the lose sting (his death = level fail).
+// Stop all playing audio, play his death cry, then the lose sting underneath.
 audio_stop_all();
+audio_play_sound(Doozle_Death, 0, 0);
 audio_play_sound(snd_music_lose, 0, 0);

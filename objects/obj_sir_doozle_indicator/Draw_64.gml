@@ -54,21 +54,36 @@ var _old_color	= draw_get_color();
 var _old_alpha	= draw_get_alpha();
 
 // --- Bubble body ---------------------------------------------------------------
-var _radius = 28;
+// Pick the bubble sprite by Doozle's hp tier — same threshold as the HP bar
+// color shifts (>60% green, >30% yellow, else red). At-a-glance health triage
+// when he's off-screen.
+var _frac = _knight.hp / _knight.max_hp;
+var _bubble_spr;
+if (_frac > 0.6)		_bubble_spr = spr_doozle_bubble_green;
+else if (_frac > 0.3)	_bubble_spr = spr_doozle_bubble_yellow;
+else					_bubble_spr = spr_doozle_bubble_red;
+
+// Visual radius — sprite scales to fit a 2*radius square centered on
+// (_bubble_x, _bubble_y). Smaller than the source 154px so the indicator
+// reads as a HUD pip, not a banner.
+var _radius	= 40;
+var _spr_w	= sprite_get_width(_bubble_spr);
+var _scale	= (_radius * 2) / _spr_w;
 
 // Soft drop-shadow.
 draw_set_alpha(0.35);
 draw_set_color(c_black);
 draw_circle(_bubble_x + 3, _bubble_y + 4, _radius, false);
-
-// White bubble fill.
 draw_set_alpha(1);
-draw_set_color(c_white);
-draw_circle(_bubble_x, _bubble_y, _radius, false);
 
-// Dark outline.
-draw_set_color(c_black);
-draw_circle(_bubble_x, _bubble_y, _radius, true);
+// Bubble sprite (origin is (0,0) on these — top-left — so we shift by
+// -_radius on each axis to draw it centered on the bubble position).
+draw_sprite_ext(
+	_bubble_spr, 0,
+	_bubble_x - _radius, _bubble_y - _radius,
+	_scale, _scale,
+	0, c_white, 1
+);
 
 // --- Arrow on the outside, pointing at the knight ------------------------------
 // Tip sits just outside the bubble; base is the chord across the bubble's edge.
@@ -96,14 +111,7 @@ draw_triangle(_tip_x, _tip_y, _b1x, _b1y, _b2x, _b2y, false);
 draw_set_color(c_black);
 draw_triangle(_tip_x, _tip_y, _b1x, _b1y, _b2x, _b2y, true);
 
-// --- Icon inside the bubble ----------------------------------------------------
-// Placeholder "K" until a Sir Doozle face/icon sprite is available.
-draw_set_color(c_black);
-draw_set_halign(fa_center);
-draw_set_valign(fa_middle);
-draw_text(_bubble_x, _bubble_y, "K");
-draw_set_halign(fa_left);
-draw_set_valign(fa_top);
+// (Icon is now the bubble sprite itself — no inset text needed.)
 
 // Restore draw state.
 draw_set_color(_old_color);

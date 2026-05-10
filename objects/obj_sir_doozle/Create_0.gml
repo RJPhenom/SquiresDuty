@@ -101,6 +101,7 @@ do_swing = function(_enemy)
 					{
 						equipped_item = undefined;	// snapped — fists from here on
 					}
+					audio_play_sound(Doozle_Slash, 0, 0);
 				}
 				break;
 
@@ -148,6 +149,7 @@ do_swing = function(_enemy)
 				{
 					equipped_item = undefined;	// out of arrows
 				}
+				audio_play_sound(Arrow, 0, 0);
 				break;
 
 			case "jumpfruit":
@@ -166,8 +168,28 @@ do_swing = function(_enemy)
 	if (!_is_ranged)
 	{
 		_enemy.hp -= _dmg_to_enemy;
+
+		// Per-enemy melee hit sound (matches the per-enemy damage cues from
+		// arrow hits in obj_arrow). Skip if the swing didn't connect (e.g.
+		// melee vs flier — _dmg_to_enemy is 0).
+		if (_dmg_to_enemy > 0)
+		{
+			var _hit_sound = snd_enemy_hit;
+			switch (_enemy.object_index)
+			{
+				case obj_enemy_r: _hit_sound = Archer_Damage;		break;
+				case obj_enemy_y: _hit_sound = BadFairy_Damage;		break;
+				case obj_enemy_b: _hit_sound = BlueMonster_Damage;	break;
+			}
+			audio_play_sound(_hit_sound, 0, 0);
+		}
 	}
 	hp -= _dmg_to_me;
 
-	audio_play_sound(snd_enemy_hit, 0, 0);
+	// Damage_2 for any hp Doozle absorbed back from the exchange (melee return
+	// from a B who didn't get blocked, etc).
+	if (_dmg_to_me > 0)
+	{
+		audio_play_sound(Damage_2, 0, 0);
+	}
 };

@@ -6,8 +6,6 @@
   "inheritCreationOrder":false,
   "inheritLayers":false,
   "instanceCreationOrder":[
-    {"name":"inst_7125ADA0","path":"rooms/room2/room2.yy",},
-    {"name":"inst_319A876B","path":"rooms/room2/room2.yy",},
     {"name":"inst_6187E405","path":"rooms/room2/room2.yy",},
     {"name":"inst_28DC189E","path":"rooms/room2/room2.yy",},
     {"name":"inst_66A626F","path":"rooms/room2/room2.yy",},
@@ -33,6 +31,8 @@
     {"name":"inst_58A20752","path":"rooms/room2/room2.yy",},
     {"name":"inst_1C7F5113","path":"rooms/room2/room2.yy",},
     {"name":"inst_6CF15D2F","path":"rooms/room2/room2.yy",},
+    {"name":"inst_319A876B","path":"rooms/room2/room2.yy",},
+    {"name":"inst_7125ADA0","path":"rooms/room2/room2.yy",},
   ],
   "isDnd":false,
   "layers":[
@@ -108,7 +108,7 @@
   },
   "sequenceId":null,
   "views":[
-    {"hborder":32,"hport":768,"hspeed":-1,"hview":768,"inherit":false,"objectId":null,"vborder":32,"visible":false,"vspeed":-1,"wport":1366,"wview":1366,"xport":0,"xview":0,"yport":0,"yview":0,},
+    {"hborder":32,"hport":768,"hspeed":-1,"hview":768,"inherit":false,"objectId":{"name":"obj_player","path":"objects/obj_player/obj_player.yy",},"vborder":32,"visible":false,"vspeed":-1,"wport":1366,"wview":1366,"xport":0,"xview":0,"yport":0,"yview":0,},
     {"hborder":32,"hport":768,"hspeed":-1,"hview":768,"inherit":false,"objectId":null,"vborder":32,"visible":false,"vspeed":-1,"wport":1366,"wview":1366,"xport":0,"xview":0,"yport":0,"yview":0,},
     {"hborder":32,"hport":768,"hspeed":-1,"hview":768,"inherit":false,"objectId":null,"vborder":32,"visible":false,"vspeed":-1,"wport":1366,"wview":1366,"xport":0,"xview":0,"yport":0,"yview":0,},
     {"hborder":32,"hport":768,"hspeed":-1,"hview":768,"inherit":false,"objectId":null,"vborder":32,"visible":false,"vspeed":-1,"wport":1366,"wview":1366,"xport":0,"xview":0,"yport":0,"yview":0,},
@@ -120,7 +120,7 @@
   "viewSettings":{
     "clearDisplayBuffer":true,
     "clearViewBackground":false,
-    "enableViews":false,
+    "enableViews":true,
     "inheritViewSettings":false,
   },
   "volume":1.0,

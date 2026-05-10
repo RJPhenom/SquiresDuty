@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"BlueMonster_Damage",
+  "audioGroupId":{
+    "name":"audiogroup_default",
+    "path":"audiogroups/audiogroup_default",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.18022676,
+  "exportDir":"",
+  "name":"BlueMonster_Damage",
+  "parent":{
+    "name":"Imports",
+    "path":"folders/Sounds/SFX/Imports.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"BlueMonster_Damage.wav",
+  "volume":1.0,
+}

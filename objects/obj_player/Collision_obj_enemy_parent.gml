@@ -17,8 +17,7 @@ if (vel_y > 0)
 
 		instance_create_layer(x, bbox_bottom, "Instances", obj_effect_jump);
 
-		var _sound = audio_play_sound(snd_jump, 0, 0);
-		audio_sound_pitch(_sound, random_range(0.8, 1));
+		audio_play_sound(Jump, 0, 0);
 
 		// Brief i-frames so a low-clearance bounce doesn't immediately re-collide
 		// and apply contact damage on the same enemy.
@@ -61,7 +60,7 @@ image_index = 0;
 alarm[0] = 15;
 
 // Play the 'life lost' sound effect
-audio_play_sound(snd_life_lost_01, 0, 0);
+audio_play_sound(Damage, 0, 0);
 
 // Knock the top item off Grizzelda's backpack (GDD: items can be dropped/destroyed on hit).
 backpack_drop_top();

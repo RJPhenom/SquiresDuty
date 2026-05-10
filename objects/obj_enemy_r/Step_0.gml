@@ -49,4 +49,6 @@ _arrow.image_angle	= _dir;
 _arrow.image_xscale	= sign(_arrow.vel_x);
 if (_arrow.image_xscale == 0) _arrow.image_xscale = 1;
 
+audio_play_sound(Arrow, 0, 0);
+
 fire_cooldown = fire_period;

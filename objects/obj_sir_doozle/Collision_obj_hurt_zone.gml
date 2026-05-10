@@ -17,7 +17,7 @@ if (hp > 0)
 	vel_x = 0;
 	vel_y = 0;
 
-	audio_play_sound(snd_life_lost_01, 0, 0);
+	audio_play_sound(Damage_2, 0, 0);
 }
 // If hp <= 0, obj_character_parent.End Step takes care of swapping in his
 // defeated_object on the next frame.

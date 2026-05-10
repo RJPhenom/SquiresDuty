@@ -15,8 +15,9 @@ if (grounded && walk_dir != 0)
 		sprite_index = spr_doozle_jump;
 		image_index	= 0;
 
-		// Reuse Grizzelda's jump SFX with a deeper pitch — he's a bigger guy.
-		var _sound = audio_play_sound(snd_jump, 0, 0);
+		// Doozle gets the same Jump SFX as Grizzelda but pitched deeper
+		// because he's bigger.
+		var _sound = audio_play_sound(Jump, 0, 0);
 		audio_sound_pitch(_sound, random_range(0.55, 0.7));
 	}
 }
