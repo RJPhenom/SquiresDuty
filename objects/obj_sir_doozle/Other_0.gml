@@ -9,7 +9,10 @@ if (bbox_top > room_height)
 
 	if (hp > 0)
 	{
-		x = grounded_x;
+		// Same back-from-edge respawn as Collision_obj_hurt_zone.
+		var _back_dir	= (walk_dir != 0) ? -sign(walk_dir) : -1;
+		var _back_dist	= 200;
+		x = grounded_x + _back_dir * _back_dist;
 		y = grounded_y;
 
 		vel_x = 0;

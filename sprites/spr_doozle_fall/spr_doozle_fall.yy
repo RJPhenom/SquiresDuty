@@ -4,7 +4,7 @@
   "bboxMode":0,
   "bbox_bottom":140,
   "bbox_left":22,
-  "bbox_right":116,
+  "bbox_right":117,
   "bbox_top":8,
   "collisionKind":1,
   "collisionTolerance":0,
@@ -12,14 +12,14 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"v1","%Name":"8fe079e0-818b-46d3-bb16-0eba923177f3","name":"8fe079e0-818b-46d3-bb16-0eba923177f3","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"311b8805-6faa-4cb5-9619-8b444a5c66ed","name":"311b8805-6faa-4cb5-9619-8b444a5c66ed","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
   "height":154,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"d9b1809c-3a8a-4b29-be20-18acbf14b92e","blendMode":0,"displayName":"default","isLocked":false,"name":"d9b1809c-3a8a-4b29-be20-18acbf14b92e","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"f16d9c72-c3ac-4910-bcc8-23477b4b1864","blendMode":0,"displayName":"default","isLocked":false,"name":"f16d9c72-c3ac-4910-bcc8-23477b4b1864","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_doozle_fall",
   "nineSlice":null,
@@ -69,8 +69,8 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"8fe079e0-818b-46d3-bb16-0eba923177f3","path":"sprites/spr_doozle_fall/spr_doozle_fall.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"2469a313-b6f0-441c-8610-1d500c1cfa99","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"311b8805-6faa-4cb5-9619-8b444a5c66ed","path":"sprites/spr_doozle_fall/spr_doozle_fall.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"2dfcabc9-de96-4891-a853-3b0def2f5bca","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

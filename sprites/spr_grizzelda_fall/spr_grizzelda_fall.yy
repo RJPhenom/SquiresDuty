@@ -2,9 +2,9 @@
   "$GMSprite":"v2",
   "%Name":"spr_grizzelda_fall",
   "bboxMode":0,
-  "bbox_bottom":151,
+  "bbox_bottom":153,
   "bbox_left":38,
-  "bbox_right":117,
+  "bbox_right":118,
   "bbox_top":14,
   "collisionKind":1,
   "collisionTolerance":0,
@@ -12,14 +12,14 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"v1","%Name":"d98cbcd6-818b-483c-98ad-740766a0aaa8","name":"d98cbcd6-818b-483c-98ad-740766a0aaa8","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"db393e12-da44-44e6-b631-8ad6aa3e60f6","name":"db393e12-da44-44e6-b631-8ad6aa3e60f6","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
   "height":154,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"a5b9ae2f-30f9-4c5b-962e-4edca4fd133a","blendMode":0,"displayName":"default","isLocked":false,"name":"a5b9ae2f-30f9-4c5b-962e-4edca4fd133a","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"0e6fa38f-4c82-4dd7-b303-66800acb4d5b","blendMode":0,"displayName":"default","isLocked":false,"name":"0e6fa38f-4c82-4dd7-b303-66800acb4d5b","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_grizzelda_fall",
   "nineSlice":null,
@@ -69,8 +69,8 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"d98cbcd6-818b-483c-98ad-740766a0aaa8","path":"sprites/spr_grizzelda_fall/spr_grizzelda_fall.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"d887e43f-29c8-4643-a183-d3419c660763","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"db393e12-da44-44e6-b631-8ad6aa3e60f6","path":"sprites/spr_grizzelda_fall/spr_grizzelda_fall.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"8a9651d7-acc8-4bbf-9ce3-387115b0a2a9","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

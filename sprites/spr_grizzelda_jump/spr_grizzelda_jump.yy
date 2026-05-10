@@ -4,7 +4,7 @@
   "bboxMode":0,
   "bbox_bottom":139,
   "bbox_left":36,
-  "bbox_right":116,
+  "bbox_right":117,
   "bbox_top":13,
   "collisionKind":1,
   "collisionTolerance":0,
@@ -12,14 +12,14 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"v1","%Name":"285b4d43-630c-43f6-ae1a-cb41c35a0a53","name":"285b4d43-630c-43f6-ae1a-cb41c35a0a53","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"1c184699-9d4e-4551-88b9-2d384e444989","name":"1c184699-9d4e-4551-88b9-2d384e444989","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
   ],
   "gridX":0,
   "gridY":0,
   "height":154,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"47273dd9-7797-40a0-8b85-3d9a72e36a6a","blendMode":0,"displayName":"default","isLocked":false,"name":"47273dd9-7797-40a0-8b85-3d9a72e36a6a","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"9791e391-4255-41ad-affb-45197b47e1ae","blendMode":0,"displayName":"default","isLocked":false,"name":"9791e391-4255-41ad-affb-45197b47e1ae","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
   ],
   "name":"spr_grizzelda_jump",
   "nineSlice":null,
@@ -69,8 +69,8 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"285b4d43-630c-43f6-ae1a-cb41c35a0a53","path":"sprites/spr_grizzelda_jump/spr_grizzelda_jump.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"8743aadb-3587-4faa-a5e7-a9100b6c51e9","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"1c184699-9d4e-4551-88b9-2d384e444989","path":"sprites/spr_grizzelda_jump/spr_grizzelda_jump.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
+              },"Disabled":false,"id":"183cedda-e979-4eb8-af56-60f7f2d540f8","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
           ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
     ],
     "visibleRange":null,

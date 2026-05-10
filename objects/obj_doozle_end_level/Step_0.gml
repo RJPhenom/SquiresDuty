@@ -1,0 +1,42 @@
+// Doozle's "teleport into the gate" sequence — mirror of obj_player_end_level.
+// Walks him to the gate's center, fades him to transparent, then sets the
+// global flag that lets Grizzelda also enter (so she's gated on his FULL fade,
+// not just on his initial gate touch). Self-destroys when fade completes.
+event_inherited();
+
+if (!instance_exists(obj_end_gate))
+{
+	// Edge case — gate gone for some reason. Just self-destruct.
+	instance_destroy();
+	exit;
+}
+
+if (x != obj_end_gate.x)
+{
+	// Walking phase: amble toward the gate center at half-pace, run anim playing.
+	vel_x = sign(obj_end_gate.x - x) * 4;
+	sprite_index = spr_doozle_run;
+	image_speed = 0.7;
+
+	if (abs(obj_end_gate.x - x) < 5)
+	{
+		// Snap to center and stop.
+		x = obj_end_gate.x;
+		vel_x = 0;
+	}
+}
+else
+{
+	// Standing-at-gate phase: fade out. No idle sprite for Doozle, so we
+	// freeze the run animation by zeroing image_speed.
+	vel_x = 0;
+	image_speed = 0;
+	image_alpha -= 0.02;
+
+	if (image_alpha <= 0)
+	{
+		// Fully teleported — NOW unlock Grizzelda's gate.
+		global.doozle_reached_end = true;
+		instance_destroy();
+	}
+}

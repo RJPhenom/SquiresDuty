@@ -1,8 +1,7 @@
-// Draw Grizzelda first (the engine no longer auto-draws when a Draw event exists).
-draw_self();
-
+// Backpack stack draws FIRST so items render BEHIND Grizzelda — that way the
+// stack doesn't cover her face/head when she's leaning forward into a heavy
+// load. The character sprite is drawn last (at the bottom of this event).
 var _n = array_length(backpack);
-if (_n == 0) exit;
 
 // Stack base sits just above her head (top of the bbox).
 var _base_x	= x;
@@ -27,40 +26,61 @@ for (var i = 0; i < _n; i++)
 	var _iy = _base_y - _cos_t * _running_h;
 	_running_h += _h * 0.5;
 
-	// Equipped indicator — draw the matching glow sprite UNDER the item so the
-	// item silhouette shows on top. Glow sprites are origin-aligned to their
-	// item sprites, so they overlay perfectly when drawn at the same point.
-	// Items without a glow (potion, wood, jumpfruit, coin, …) fall back to the
-	// soft red outline so selection is still visible.
+	// Equipped indicator — when an item is the equipped one, swap its sprite
+	// for the matching glow variant (the new glow art bakes the full item +
+	// halo into a single sprite). Items without a glow variant get a soft
+	// red rectangle behind them so selection is still visible.
+	var _draw_spr = _spr;
+	var _drew_red_box = false;
+
 	if (i == equipped_index)
 	{
-		var _glow = -1;
 		switch (_item.type)
 		{
-			case "sword":		_glow = spr_sword_glow;		break;
-			case "shield":		_glow = spr_shield_glow;	break;
-			case "crossbow":	_glow = spr_crossbow_glow;	break;
-		}
+			case "sword":		_draw_spr = spr_sword_glow;		break;
+			case "shield":		_draw_spr = spr_shield_glow;	break;
+			case "crossbow":	_draw_spr = spr_crossbow_glow;	break;
 
-		if (_glow != -1)
-		{
-			// Subtle pulse so the highlight reads as "selected" not "static art".
-			var _pulse = 0.85 + 0.15 * sin(current_time * 0.006);
-			draw_sprite_ext(_glow, 0, _ix, _iy, 1, 1, stack_tilt, c_white, _pulse);
-		}
-		else
-		{
-			var _ow = sprite_get_width(_spr) * 0.55 + 4;
-			var _oh = sprite_get_height(_spr) * 0.55 + 4;
-			draw_set_color(c_red);
-			draw_set_alpha(0.45);
-			draw_rectangle(_ix - _ow, _iy - _oh, _ix + _ow, _iy + _oh, false);
-			draw_set_alpha(1);
+			case "jumpfruit":
+			case "wood":
+				// Programmatic glow — no dedicated glow sprite, so we fake
+				// one by drawing the item sprite a few times with a small
+				// radial offset, tinted yellow, BEFORE the real draw. Pulses
+				// in alpha for life.
+				var _pulse = 0.35 + 0.25 * sin(current_time * 0.006);
+				for (var _ang = 0; _ang < 360; _ang += 60)
+				{
+					var _ox = lengthdir_x(4, _ang);
+					var _oy = lengthdir_y(4, _ang);
+					draw_sprite_ext(
+						_spr, 0,
+						_ix + _ox, _iy + _oy,
+						1.12, 1.12,
+						stack_tilt,
+						c_yellow, _pulse
+					);
+				}
+				break;
+
+			default:
+				// No glow art for this type — soft red rect fallback.
+				var _ow = sprite_get_width(_spr) * 0.55 + 4;
+				var _oh = sprite_get_height(_spr) * 0.55 + 4;
+				draw_set_color(c_red);
+				draw_set_alpha(0.45);
+				draw_rectangle(_ix - _ow, _iy - _oh, _ix + _ow, _iy + _oh, false);
+				draw_set_alpha(1);
+				_drew_red_box = true;
+				break;
 		}
 	}
 
-	// Item sprite, leaned with the stack.
-	draw_sprite_ext(_spr, 0, _ix, _iy, 1, 1, stack_tilt, c_white, 1);
+	// Single item draw — either the base sprite, or the glow variant if equipped.
+	draw_sprite_ext(_draw_spr, 0, _ix, _iy, 1, 1, stack_tilt, c_white, 1);
 }
 
 draw_set_color(c_white);
+
+// Grizzelda renders LAST so the backpack stack appears behind her instead of
+// covering her face when the stack tilts forward.
+draw_self();

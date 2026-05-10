@@ -1,12 +1,17 @@
 // Doozle hits a hurt zone (lava, spikes, pit floor). Mirrors the player's
 // hurt-zone handling but scaled to his 100hp pool — 25 dmg per fall, so he
-// can take ~4 unlucky pits before going down. Respawn at his last grounded
-// position so he doesn't immediately fall back in.
+// can take ~4 unlucky pits before going down.
+//
+// Respawn pushes back from the edge opposite to his walk direction so he
+// doesn't immediately march off again. 200px back is enough to avoid the
+// "fall, respawn, fall, respawn" rapid-fire failure loop.
 hp -= 25;
 
 if (hp > 0)
 {
-	x = grounded_x;
+	var _back_dir	= (walk_dir != 0) ? -sign(walk_dir) : -1;
+	var _back_dist	= 200;
+	x = grounded_x + _back_dir * _back_dist;
 	y = grounded_y;
 
 	vel_x = 0;
