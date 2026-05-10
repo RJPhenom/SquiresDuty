@@ -12,5 +12,6 @@ if (fail_timer <= 0)
 {
 	video_close();
 	advancing = true;
-	room_goto_next();
+	// Outro always routes back to the main menu, regardless of room order.
+	room_goto(rm_menu);
 }
